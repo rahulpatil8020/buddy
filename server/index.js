@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import adventureRoutes from "./routes/adventures.js";
+import userRoutes from "./routes/users.js";
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -12,6 +13,7 @@ app.use(cors());
 // Using '/adventures' means that each of the request comming from adventureRoutes will have /adventures as prefix.
 // This means we have to hit localhost::8000/adventures to get the adventures data instead of localhost::8000/
 app.use("/adventures", adventureRoutes);
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 8000;
 const CONNECTION_URL =
