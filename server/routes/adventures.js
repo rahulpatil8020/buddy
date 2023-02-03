@@ -1,17 +1,19 @@
 import express from "express";
 import {
-  getAdventure,
-  getAllAdventures,
-  createAdventure,
-  updateAdventure,
-  deleteAdventure,
-} from "../controllers/adventureController";
+  getAdventurePost,
+  getAllAdventurePosts,
+  createAdventurePost,
+  updateAdventurePost,
+  deleteAdventurePost,
+} from "../controllers/adventureController.js";
+
 const router = express.Router();
 
-router.get("/", getAllAdventures);
-router.get("/:id", getAdventure);
-router.post("/", createAdventure);
-router.patch("/:id", updateAdventure);
-router.delete("/:id", deleteAdventure);
+// Functions imported from adventureController.js are used to perform certain action when the url is hit in the backend;
+router.get("/", getAllAdventurePosts);
+router.get("/:id", getAdventurePost);
+router.post("/", createAdventurePost);
+router.patch("/:id", updateAdventurePost);
+router.delete("/:id", deleteAdventurePost);
 
 export default router;

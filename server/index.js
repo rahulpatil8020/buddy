@@ -9,6 +9,8 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+// Using '/adventures' means that each of the request comming from adventureRoutes will have /adventures as prefix.
+// This means we have to hit localhost::8000/adventures to get the adventures data instead of localhost::8000/
 app.use("/adventures", adventureRoutes);
 
 const PORT = process.env.PORT || 8000;

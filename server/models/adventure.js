@@ -10,6 +10,10 @@ const adventureSchema = mongoose.Schema({
     type: Number,
     default: 1,
   },
+  interests: {
+    type: Number,
+    default: 1,
+  },
   createdOn: {
     type: Date,
     default: new Date(),
@@ -19,6 +23,6 @@ const adventureSchema = mongoose.Schema({
   },
 });
 
-const AdventureModel = mongoose.model("AdventureModel", adventureSchema);
+const AdventurePost = mongoose.model("AdventurePost", adventureSchema);
 
-export default AdventureModel;
+export default AdventurePost;
