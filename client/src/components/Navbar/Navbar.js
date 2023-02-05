@@ -8,7 +8,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
 import { styled } from "@mui/material/styles";
-import "./styles.css";
+import { Link } from "react-router-dom";
 
 const MyBottomNavigationBox = styled(Box)({
   width: "100%",
@@ -40,7 +40,8 @@ const MyBottomNavigationAction = styled(BottomNavigationAction)({
 });
 
 export default function Navbar() {
-  const [value, setValue] = React.useState(0);
+  console.log(window.location.pathname);
+  const [value, setValue] = React.useState(window.location.pathname.slice(1));
 
   return (
     <MyBottomNavigationBox>
@@ -53,14 +54,40 @@ export default function Navbar() {
         }}
       >
         <MyBottomNavigationAction
-          disableRipple
+          LinkComponent={Link}
+          to="/"
+          value={""}
           label="Home"
           icon={<HomeIcon />}
         />
-        <MyBottomNavigationAction label="Feed" icon={<PublicIcon />} />
-        <MyBottomNavigationAction icon={<AddCircleIcon />} />
-        <MyBottomNavigationAction label="Chat" icon={<ChatIcon />} />
-        <MyBottomNavigationAction label="Profile" icon={<PersonIcon />} />
+
+        <MyBottomNavigationAction
+          LinkComponent={Link}
+          to="/feed"
+          value={"feed"}
+          label="Feed"
+          icon={<PublicIcon />}
+        />
+        <MyBottomNavigationAction
+          LinkComponent={Link}
+          to="/addPost"
+          value={"addPost"}
+          icon={<AddCircleIcon />}
+        />
+        <MyBottomNavigationAction
+          LinkComponent={Link}
+          to="/chat"
+          value={"chat"}
+          label="Chat"
+          icon={<ChatIcon />}
+        />
+        <MyBottomNavigationAction
+          LinkComponent={Link}
+          to="/profile"
+          value={"profile"}
+          label="Profile"
+          icon={<PersonIcon />}
+        />
       </MyBottomNavigation>
     </MyBottomNavigationBox>
   );
