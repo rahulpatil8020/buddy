@@ -19,7 +19,7 @@ const MyBottomNavigationBox = styled(Box)({
   bottom: 30,
 });
 const MyBottomNavigation = styled(BottomNavigation)({
-  backgroundColor: "#8A22F1",
+  backgroundColor: "#7cc918",
   borderRadius: 15,
 });
 
@@ -31,16 +31,15 @@ const MyBottomNavigationAction = styled(BottomNavigationAction)({
   },
   "&.Mui-selected": {
     transition: "0.3s",
-    transform: "scale(1.05)",
-    backgroundColor: "#C592F8",
+    transform: "scale(1.1)",
+    backgroundColor: "#6418c9",
   },
   "&.MuiBottomNavigationAction-root.Mui-selected": {
-    color: "#8A22F1",
+    color: "white",
   },
 });
 
 export default function Navbar() {
-  console.log(window.location.pathname);
   const [value, setValue] = React.useState(window.location.pathname.slice(1));
 
   return (
@@ -83,7 +82,7 @@ export default function Navbar() {
         />
         <MyBottomNavigationAction
           LinkComponent={Link}
-          to="/profile"
+          to="/auth"
           value={"profile"}
           label="Profile"
           icon={<PersonIcon />}
