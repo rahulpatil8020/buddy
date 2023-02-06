@@ -10,18 +10,21 @@ import PersonIcon from "@mui/icons-material/Person";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
-const MyBottomNavigationBox = styled(Box)({
+const MyBottomNavigationBox = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   position: "fixed",
   bottom: 30,
-});
-const MyBottomNavigation = styled(BottomNavigation)({
+  [theme.breakpoints.down("sm")]: {
+    bottom: 2,
+  },
+}));
+const MyBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
   backgroundColor: "#7cc918",
   borderRadius: 15,
-});
+}));
 
 const MyBottomNavigationAction = styled(BottomNavigationAction)({
   color: "white",

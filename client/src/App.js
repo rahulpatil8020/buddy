@@ -1,6 +1,6 @@
 import "./App.css";
 import HomePage from "./pages/Home/HomePage";
-import PrimarySearchAppBar from "./components/AppHeader/AppHeader";
+import AppHeader from "./components/AppHeader/AppHeader";
 import FeedPage from "./pages/Feed/FeedPage";
 import AddPostPage from "./pages/AddPost/AddPostPage";
 import ChatPage from "./pages/Chat/ChatPage";
@@ -26,7 +26,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <PrimarySearchAppBar />
+        <AppHeader />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/feed" element={<FeedPage />} />
