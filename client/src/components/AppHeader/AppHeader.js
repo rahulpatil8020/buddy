@@ -22,6 +22,7 @@ export default function AppHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");

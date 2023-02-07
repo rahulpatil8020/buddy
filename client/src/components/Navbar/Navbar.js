@@ -7,7 +7,6 @@ import PublicIcon from "@mui/icons-material/Public";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
-import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { styles } from "./styles";
 

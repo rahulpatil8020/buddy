@@ -11,8 +11,11 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "./Input";
-import styled from "@emotion/styled";
 import { styles } from "./styles";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login, signup } from "../../actions/auth";
+
 const initialState = {
   firstName: "",
   lastName: "",
@@ -24,9 +27,15 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignUp] = useState(true);
   const [formData, setFormData] = useState(initialState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (isSignup) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(login(formData, navigate));
+    }
   };
 
   const handleShowPassword = () => {
