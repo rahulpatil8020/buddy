@@ -12,7 +12,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "./Input";
 import styled from "@emotion/styled";
-
+import { styles } from "./styles";
 const initialState = {
   firstName: "",
   lastName: "",
@@ -43,24 +43,10 @@ const Auth = () => {
     });
   };
 
-  const MyAuthForm = {
-    marginTop: "20px",
-    boxShadow:
-      "0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19)",
-    borderRadius: "15px",
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
-
-  const MyAuthButton = styled(Button)(({ theme }) => ({
-    marginTop: theme.spacing(3),
-  }));
   return (
     <>
       <Container maxWidth={"xs"}>
-        <Paper sx={MyAuthForm}>
+        <Paper sx={styles.formPaper}>
           <Box
             sx={{
               display: "flex",
@@ -121,14 +107,15 @@ const Auth = () => {
                 />
               ) : null}
             </Grid>
-            <MyAuthButton
+            <Button
+              sx={styles.formSubmitButton}
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
             >
               {isSignup ? "Sign Up" : "Sign In"}
-            </MyAuthButton>
+            </Button>
           </form>
           <Button onClick={switchMode}>
             {isSignup

@@ -9,45 +9,15 @@ import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-
-const MyBottomNavigationBox = styled(Box)(({ theme }) => ({
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  position: "fixed",
-  bottom: 30,
-  [theme.breakpoints.down("sm")]: {
-    bottom: 2,
-  },
-}));
-const MyBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
-  backgroundColor: "#7cc918",
-  borderRadius: 15,
-}));
-
-const MyBottomNavigationAction = styled(BottomNavigationAction)({
-  color: "white",
-  borderRadius: 15,
-  "&:hover": {
-    transform: "scale(1.1)",
-  },
-  "&.Mui-selected": {
-    transition: "0.3s",
-    transform: "scale(1.1)",
-    backgroundColor: "#6418c9",
-  },
-  "&.MuiBottomNavigationAction-root.Mui-selected": {
-    color: "white",
-  },
-});
+import { styles } from "./styles";
 
 export default function Navbar() {
   const [value, setValue] = React.useState(window.location.pathname.slice(1));
 
   return (
-    <MyBottomNavigationBox>
-      <MyBottomNavigation
+    <Box sx={styles.navigationBarBox}>
+      <BottomNavigation
+        sx={styles.navigationBar}
         defaultValue={"Nearby"}
         showLabels
         value={value}
@@ -55,7 +25,8 @@ export default function Navbar() {
           setValue(newValue);
         }}
       >
-        <MyBottomNavigationAction
+        <BottomNavigationAction
+          sx={styles.navigationBarAction}
           LinkComponent={Link}
           to="/"
           value={""}
@@ -63,34 +34,38 @@ export default function Navbar() {
           icon={<HomeIcon />}
         />
 
-        <MyBottomNavigationAction
+        <BottomNavigationAction
+          sx={styles.navigationBarAction}
           LinkComponent={Link}
           to="/feed"
           value={"feed"}
           label="Feed"
           icon={<PublicIcon />}
         />
-        <MyBottomNavigationAction
+        <BottomNavigationAction
+          sx={styles.navigationBarAction}
           LinkComponent={Link}
           to="/addPost"
           value={"addPost"}
           icon={<AddCircleIcon />}
         />
-        <MyBottomNavigationAction
+        <BottomNavigationAction
+          sx={styles.navigationBarAction}
           LinkComponent={Link}
           to="/chat"
           value={"chat"}
           label="Chat"
           icon={<ChatIcon />}
         />
-        <MyBottomNavigationAction
+        <BottomNavigationAction
+          sx={styles.navigationBarAction}
           LinkComponent={Link}
-          to="/auth"
+          to="/profile"
           value={"profile"}
           label="Profile"
           icon={<PersonIcon />}
         />
-      </MyBottomNavigation>
-    </MyBottomNavigationBox>
+      </BottomNavigation>
+    </Box>
   );
 }
