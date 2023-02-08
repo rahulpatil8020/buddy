@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -9,10 +9,14 @@ import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { styles } from "./styles";
-
+import { useLocation } from "react-router-dom";
 export default function Navbar() {
-  const [value, setValue] = React.useState(window.location.pathname.slice(1));
+  const [value, setValue] = useState(window.location.pathname.slice(1));
+  const location = useLocation();
 
+  useEffect(() => {
+    setValue(location.pathname.slice(1));
+  }, [location]);
   return (
     <Box sx={styles.navigationBarBox}>
       <BottomNavigation

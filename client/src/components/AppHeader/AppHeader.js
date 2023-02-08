@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import { Box, Toolbar, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+
 const MyAppTitleBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -52,25 +52,29 @@ export default function AppHeader() {
           ) : null}
           <Box>
             {user ? (
-              <IconButton
-                onClick={logout}
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <LogoutIcon />
-              </IconButton>
+              <Tooltip title="Logout">
+                <IconButton
+                  onClick={logout}
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
             ) : (
-              <IconButton
-                onClick={() => {
-                  navigate("/auth");
-                }}
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <LoginIcon />
-              </IconButton>
+              <Tooltip title="Login">
+                <IconButton
+                  onClick={() => {
+                    navigate("/auth");
+                  }}
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <LoginIcon />
+                </IconButton>
+              </Tooltip>
             )}
           </Box>
         </Toolbar>

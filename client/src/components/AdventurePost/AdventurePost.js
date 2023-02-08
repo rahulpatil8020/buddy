@@ -1,7 +1,7 @@
 import React from "react";
 
 const AdventurePost = () => {
-  return <div>AdventurePost</div>;
+  return <div>This is Adventure Post</div>;
 };
 
 export default AdventurePost;
