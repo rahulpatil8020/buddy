@@ -31,7 +31,7 @@ export default function AppHeader() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
+    setUser(user?.user);
   }, [location]);
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -47,6 +47,9 @@ export default function AppHeader() {
           </MyAppTitleBox>
 
           <Box sx={{ flexGrow: 1 }} />
+          {user ? (
+            <Typography sx={{ marginRight: 5 }}>Hey, {user?.name}</Typography>
+          ) : null}
           <Box>
             {user ? (
               <IconButton
