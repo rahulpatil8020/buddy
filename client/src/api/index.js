@@ -1,3 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000";
+const API = axios.create({ baseURL: "http://localhost:8000" });
+
+export const signup = (formData) => API.post("users/signup", formData);
+export const login = (formData) => API.post("users/login", formData);

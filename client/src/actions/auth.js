@@ -3,9 +3,10 @@ import * as api from "../api/index";
 
 export const login = (formData, navigate) => async (dispatch) => {
   try {
+    const { data } = await api.login(formData);
     dispatch({
       type: AUTH,
-      payload: await api.login(formData),
+      payload: data,
     });
     navigate("/");
   } catch (error) {
@@ -15,9 +16,10 @@ export const login = (formData, navigate) => async (dispatch) => {
 
 export const signup = (formData, navigate) => async (dispatch) => {
   try {
+    const { data } = await api.signup(formData);
     dispatch({
       type: AUTH,
-      payload: await api.signup(formData),
+      payload: data,
     });
     navigate("/");
   } catch (error) {
