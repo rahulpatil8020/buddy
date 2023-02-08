@@ -1,4 +1,7 @@
 import User from "../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 export const getUser = async (req, res) => {
   const { id } = req.body;
@@ -7,17 +10,6 @@ export const getUser = async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
-  }
-};
-
-export const createUser = async (req, res) => {
-  const user = req.body;
-  const newUser = new User(user);
-  try {
-    await newUser.save();
-    res.json(201).json(newUser);
-  } catch (error) {
-    res.json(409).json({ message: error.message });
   }
 };
 
@@ -38,5 +30,56 @@ export const deleteUser = async (req, res) => {
     res.status(200).json(id);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+      if (isPasswordCorrect) {
+        const token = jwt.sign(
+          { id: user._id, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "1h" }
+        );
+        res.status(200).json({ token, user });
+      } else {
+        return res.status(401).json({ message: "Invalid Credentials" });
+      }
+    } else return res.status(404).json({ message: "User Doesn't Exist" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const signup = async (req, res) => {
+  const { email, password, firstName, lastName, confirmPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+    if (password !== confirmPassword)
+      return res.status(409).json({ message: "Passwords don't match" });
+
+    const hashedPassword = await bcrypt.hash(password, process.env.SALT);
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      name: `${firstName}, ${lastName}`,
+    });
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ token, user: newUser });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

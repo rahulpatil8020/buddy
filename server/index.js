@@ -4,11 +4,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import adventureRoutes from "./routes/adventures.js";
 import userRoutes from "./routes/users.js";
+import dotenv from "dotenv";
 const app = express();
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+dotenv.config();
 
 // Using '/adventures' means that each of the request comming from adventureRoutes will have /adventures as prefix.
 // This means we have to hit localhost::8000/adventures to get the adventures data instead of localhost::8000/
@@ -16,8 +18,7 @@ app.use("/adventures", adventureRoutes);
 app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 8000;
-const CONNECTION_URL =
-  "mongodb+srv://thorrp:thorrp@cluster0.enxrb.mongodb.net/?retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.CONNECTION_URL;
 mongoose.set("strictQuery", true);
 mongoose
   .connect(CONNECTION_URL, {
