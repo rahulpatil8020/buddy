@@ -57,7 +57,6 @@ export const login = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { email, password, firstName, lastName, confirmPassword } = req.body;
-
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -65,19 +64,21 @@ export const signup = async (req, res) => {
     }
     if (password !== confirmPassword)
       return res.status(409).json({ message: "Passwords don't match" });
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const hashedPassword = await bcrypt.hash(password, process.env.SALT);
-    const newUser = await User.create({
+    const newUser = new User({
       email,
       password: hashedPassword,
-      name: `${firstName}, ${lastName}`,
+      name: `${firstName} ${lastName}`,
     });
+    await newUser.save();
+    console.log(newUser);
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-
     res.status(200).json({ token, user: newUser });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
