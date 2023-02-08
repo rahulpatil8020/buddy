@@ -73,7 +73,6 @@ export const signup = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
     await newUser.save();
-    console.log(newUser);
     const token = jwt.sign(
       { id: newUser._id, email: newUser.email },
       process.env.JWT_SECRET,
