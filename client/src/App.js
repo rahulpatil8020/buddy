@@ -12,6 +12,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getAllAdventurePosts } from "./actions/adventurePosts";
+import PrivateRoutes from "./utils/PrivateRoutes";
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,11 +34,13 @@ function App() {
       <BrowserRouter>
         <AppHeader />
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route path="/feed" element={<FeedPage />} />
-          <Route path="/addPost" element={<AddPostPage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route element={<PrivateRoutes />}>
+            <Route exact path="/" element={<HomePage />} />
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="/addPost" element={<AddPostPage />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
           <Route path="/auth" element={<Auth />} />
         </Routes>
         <Navbar />

@@ -5,7 +5,9 @@ const HomePage = () => {
   const adventurePosts = useSelector((state) => state.adventurePostsReducer);
   return (
     <div>
-      <h1>{adventurePosts}</h1>
+      {adventurePosts.map((post) => {
+        return <h1>{post.title}</h1>;
+      })}
     </div>
   );
 };
