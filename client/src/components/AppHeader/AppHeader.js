@@ -8,8 +8,6 @@ import {
   Tooltip,
   Button,
   DialogTitle,
-  DialogContent,
-  DialogContentText,
   DialogActions,
   Slide,
 } from "@mui/material";
