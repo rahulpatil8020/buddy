@@ -38,7 +38,11 @@ const AddPostPage = () => {
             Create Post
           </Typography>
 
-          <CreatePost />
+          <CreatePost
+            postName="feedpost"
+            postLabel="Feed Post Name"
+            type="feedpost"
+          />
         </>
       )}
       {createType === "adventurepost" && (
@@ -46,7 +50,11 @@ const AddPostPage = () => {
           <Typography variant="h4" sx={{ marginX: 2, marginY: 3 }}>
             Create Adventure
           </Typography>
-          <CreatePost />
+          <CreatePost
+            postName="adventurepost"
+            postLabel="Adventure Post Name"
+            type="adventurepost"
+          />
         </>
       )}
     </Container>

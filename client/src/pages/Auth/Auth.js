@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Input from "./Input";
+import Input from "../../components/Input";
 import { styles } from "./styles";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
