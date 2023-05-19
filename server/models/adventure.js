@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const adventureSchema = mongoose.Schema({
   title: String,
   details: String,
-  creator: String,
+  createdBy: String,
   tags: [String],
   selectedFile: String,
   adventureres: {

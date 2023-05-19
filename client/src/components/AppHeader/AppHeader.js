@@ -54,6 +54,9 @@ export default function AppHeader() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user?.user);
+    if (user) {
+      dispatch({ type: "GETUSER", payload: user });
+    }
   }, [location]);
   return (
     <>

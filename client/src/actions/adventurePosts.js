@@ -32,7 +32,7 @@ export const getAdventurePost = (id) => async (dispatch) => {
   }
 };
 
-export const createAdventurePost = (post) => async (dispatch) => {
+export const createAdventurePost = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.createAdventurePost(post);
     console.log(data);
@@ -40,6 +40,7 @@ export const createAdventurePost = (post) => async (dispatch) => {
       type: CREATE,
       payload: data,
     });
+    navigate("/");
   } catch (error) {
     console.log(error);
   }

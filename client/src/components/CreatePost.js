@@ -9,39 +9,38 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Input from "./Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 const CreatePost = ({ postName, postLabel, type }) => {
+  const authData = useSelector((state) => state.authReducer.authData);
   const initialFormData = {
-    name: "",
+    title: "",
     tags: [],
-    postDetails: "",
+    details: "",
     image: "",
-    createdBy: "",
+    createdBy: authData?.user?._id,
   };
   const [tagText, setTagText] = useState("");
-  const [tagList, setTagList] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleDeleteTag = (tagName) => (e) => {
-    setTagList(tagList.filter((tag) => tag !== tagName));
+    setFormData({
+      ...formData,
+      tags: formData.tags.filter((tag) => tag !== tagName),
+    });
   };
   const onFileChange = (e) => {
     setSelectedImage(e.target.files[0]);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormData({
-      ...formData,
-      tags: [...tagList],
-    });
     if (type === "feedpost") {
       // dispatch(feedpost(formData, navigate));
     } else {
-      dispatch(createAdventurePost(formData));
+      dispatch(createAdventurePost(formData, navigate));
     }
   };
   const handleInputChange = (e) => {
@@ -63,7 +62,7 @@ const CreatePost = ({ postName, postLabel, type }) => {
       >
         <Grid container spacing={3}>
           <Input
-            name={"name"}
+            name={"title"}
             handleChange={handleInputChange}
             label={postLabel}
             type="text"
@@ -83,7 +82,7 @@ const CreatePost = ({ postName, postLabel, type }) => {
 
           <Grid item xs={12} sm={6}>
             <TextField
-              name="adventureTags"
+              name="tags"
               label="Tags"
               fullWidth
               variant="outlined"
@@ -95,13 +94,16 @@ const CreatePost = ({ postName, postLabel, type }) => {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  setTagList([...tagList, tagText]);
+                  setFormData({
+                    ...formData,
+                    tags: [...formData.tags, tagText],
+                  });
                   setTagText("");
                 }
               }}
               autoComplete="off"
             ></TextField>
-            {tagList.map((i) => {
+            {formData.tags?.map((i) => {
               return (
                 <Chip
                   label={i}
@@ -112,7 +114,7 @@ const CreatePost = ({ postName, postLabel, type }) => {
             })}
           </Grid>
           <Input
-            name={"postDetails"}
+            name={"details"}
             handleChange={handleInputChange}
             label={"Post Details"}
             type="text"

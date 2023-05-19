@@ -10,7 +10,7 @@ import {
 const adventurePostsReducer = (adventurePosts = [], action) => {
   switch (action.type) {
     case CREATE:
-      return adventurePosts;
+      return [...adventurePosts, action.payload];
 
     case UPDATE:
       return adventurePosts;
