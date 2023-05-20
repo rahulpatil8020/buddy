@@ -2,7 +2,7 @@ import { Container, Typography, Button, Stack } from "@mui/material";
 import React, { useState } from "react";
 import CreatePost from "../../components/CreatePost";
 const AddPostPage = () => {
-  const [createType, setCreateType] = useState("feedpost");
+  const [createType, setCreateType] = useState("feedPost");
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
       <Stack
@@ -14,14 +14,14 @@ const AddPostPage = () => {
         {createType === "adventurepost" && (
           <Button
             onClick={() => {
-              setCreateType("feedpost");
+              setCreateType("feedPost");
             }}
             variant="contained"
           >
             Create Feed Post
           </Button>
         )}
-        {createType === "feedpost" && (
+        {createType === "feedPost" && (
           <Button
             onClick={() => {
               setCreateType("adventurepost");
@@ -32,16 +32,16 @@ const AddPostPage = () => {
           </Button>
         )}
       </Stack>
-      {createType === "feedpost" && (
+      {createType === "feedPost" && (
         <>
           <Typography variant="h4" sx={{ margin: 2 }}>
             Create Post
           </Typography>
 
           <CreatePost
-            postName="feedpost"
+            postName="feedPost"
             postLabel="Feed Post Name"
-            type="feedpost"
+            type="feedPost"
           />
         </>
       )}

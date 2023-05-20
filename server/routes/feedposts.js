@@ -1,20 +1,20 @@
 import express from "express";
 import {
-  getFeedpost,
-  getAllFeedposts,
-  createFeedpost,
-  updateFeedpost,
-  deleteFeedpost,
-} from "../controllers/feedpostController.js";
+  getFeedPost,
+  getAllFeedPosts,
+  createFeedPost,
+  updateFeedPost,
+  deleteFeedPost,
+} from "../controllers/feedPostController.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
 // Functions imported from adventureController.js are used to perform certain action when the url is hit in the backend;
-router.get("/", getAllFeedposts);
-router.get("/:id", getFeedpost);
-router.post("/", createFeedpost);
-router.patch("/:id", updateFeedpost);
-router.delete("/:id", deleteFeedpost);
+router.get("/", getAllFeedPosts);
+router.get("/:id", getFeedPost);
+router.post("/", createFeedPost);
+router.patch("/:id", updateFeedPost);
+router.delete("/:id", deleteFeedPost);
 
 export default router;

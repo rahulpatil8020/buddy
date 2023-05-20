@@ -37,8 +37,8 @@ const CreatePost = ({ postName, postLabel, type }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (type === "feedpost") {
-      // dispatch(feedpost(formData, navigate));
+    if (type === "feedPost") {
+      // dispatch(feedPost(formData, navigate));
     } else {
       dispatch(createAdventurePost(formData, navigate));
     }

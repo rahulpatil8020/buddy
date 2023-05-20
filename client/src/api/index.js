@@ -15,10 +15,10 @@ export const updateAdventurePost = (id, formData) =>
 export const deleteAdventurePost = (id) => API.delete(`adventures/${id}`);
 export const likeAdventurePost = (id) => API.patch(`adventures/${id}/like`);
 
-export const getAllFeedPosts = () => API.get("feedposts/");
-export const getFeedPost = (id) => API.get(`feedposts/${id}`);
-export const createFeedPost = (formData) => API.post("feedposts/", formData);
+export const getAllFeedPosts = () => API.get("feedPosts/");
+export const getFeedPost = (id) => API.get(`feedPosts/${id}`);
+export const createFeedPost = (formData) => API.post("feedPosts/", formData);
 export const updateFeedPost = (id, formData) =>
-  API.patch(`feedposts/${id}`, formData);
-export const deleteFeedPost = (id) => API.delete(`feedposts/${id}`);
-export const likeFeedPost = (id) => API.patch(`feedposts/${id}/like`);
+  API.patch(`feedPosts/${id}`, formData);
+export const deleteFeedPost = (id) => API.delete(`feedPosts/${id}`);
+export const likeFeedPost = (id) => API.patch(`feedPosts/${id}/like`);

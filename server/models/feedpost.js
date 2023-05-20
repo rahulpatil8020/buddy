@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const feedpostSchema = mongoose.Schema({
+const feedPostSchema = mongoose.Schema({
   title: String,
   details: String,
   createdBy: String,
@@ -16,6 +16,6 @@ const feedpostSchema = mongoose.Schema({
   },
 });
 
-const Feedpost = mongoose.model("Feedpost", feedpostSchema);
+const FeedPost = mongoose.model("FeedPost", feedPostSchema);
 
-export default Feedpost;
+export default FeedPost;
