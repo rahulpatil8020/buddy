@@ -5,7 +5,7 @@ const adventureSchema = mongoose.Schema({
   details: String,
   createdBy: String,
   tags: [String],
-  selectedFile: String,
+  image: String,
   adventureres: {
     type: Number,
     default: 1,

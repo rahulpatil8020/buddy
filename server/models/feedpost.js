@@ -5,7 +5,7 @@ const feedPostSchema = mongoose.Schema({
   details: String,
   createdBy: String,
   tags: [String],
-  selectedFile: String,
+  image: String,
   likes: {
     type: Number,
     default: 1,

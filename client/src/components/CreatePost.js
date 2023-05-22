@@ -12,6 +12,7 @@ import Input from "./Input";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
+import { createFeedPost } from "../actions/feedPost";
 const CreatePost = ({ postName, postLabel, type }) => {
   const authData = useSelector((state) => state.authReducer.authData);
   const initialFormData = {
@@ -38,7 +39,7 @@ const CreatePost = ({ postName, postLabel, type }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (type === "feedPost") {
-      // dispatch(feedPost(formData, navigate));
+      dispatch(createFeedPost(formData, navigate));
     } else {
       dispatch(createAdventurePost(formData, navigate));
     }

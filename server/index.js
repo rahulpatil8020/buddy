@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import adventureRoutes from "./routes/adventures.js";
 import userRoutes from "./routes/users.js";
+import feedPostRoutes from "./routes/feedPosts.js";
 import dotenv from "dotenv";
 const app = express();
 
@@ -16,6 +17,7 @@ dotenv.config();
 // This means we have to hit localhost::8000/adventures to get the adventures data instead of localhost::8000/
 app.use("/adventures", adventureRoutes);
 app.use("/users", userRoutes);
+app.use("/feedPosts", feedPostRoutes);
 
 const PORT = process.env.PORT || 8000;
 const CONNECTION_URL = process.env.CONNECTION_URL;
