@@ -35,7 +35,6 @@ export const getAdventurePost = (id) => async (dispatch) => {
 export const createAdventurePost = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.createAdventurePost(post);
-    console.log(data);
     dispatch({
       type: CREATE_ADVENTURE,
       payload: data,

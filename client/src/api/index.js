@@ -7,9 +7,8 @@ export const login = (formData) => API.post("users/login", formData);
 
 export const getAllAdventurePosts = () => API.get("adventures/");
 export const getAdventurePost = (id) => API.get(`adventures/${id}`);
-export const createAdventurePost = (formData) => {
+export const createAdventurePost = (formData) =>
   API.post("adventures/", formData);
-};
 export const updateAdventurePost = (id, formData) =>
   API.patch(`adventures/${id}`, formData);
 export const deleteAdventurePost = (id) => API.delete(`adventures/${id}`);
