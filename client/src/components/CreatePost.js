@@ -13,17 +13,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost } from "../actions/feedPost";
-const CreatePost = ({ postName, postLabel, type }) => {
-  const authData = useSelector((state) => state.authReducer.authData);
-  const initialFormData = {
-    title: "",
-    tags: [],
-    details: "",
-    image: "",
-    createdBy: authData?.user?._id,
-  };
+const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
+  // const authData = useSelector((state) => state.authReducer.authData);
+  // const initialFormData = {
+  //   title: "",
+  //   tags: [],
+  //   details: "",
+  //   image: "",
+  //   createdBy: authData?.user?._id,
+  // };
   const [tagText, setTagText] = useState("");
-  const [formData, setFormData] = useState(initialFormData);
+  // const [formData, setFormData] = useState(initialFormData);
   const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();

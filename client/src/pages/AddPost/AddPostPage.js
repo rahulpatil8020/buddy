@@ -1,8 +1,19 @@
 import { Container, Typography, Button, Stack } from "@mui/material";
 import React, { useState } from "react";
 import CreatePost from "../../components/CreatePost";
+import { useSelector } from "react-redux";
 const AddPostPage = () => {
+  const authData = useSelector((state) => state.authReducer?.authData);
+  const initialFormData = {
+    title: "",
+    tags: [],
+    details: "",
+    image: "",
+    createdBy: authData?.user?._id,
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [createType, setCreateType] = useState("feedPost");
+  console.log(initialFormData);
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
       <Stack
@@ -14,6 +25,7 @@ const AddPostPage = () => {
         {createType === "adventurepost" && (
           <Button
             onClick={() => {
+              setFormData(initialFormData);
               setCreateType("feedPost");
             }}
             variant="contained"
@@ -24,6 +36,7 @@ const AddPostPage = () => {
         {createType === "feedPost" && (
           <Button
             onClick={() => {
+              setFormData(initialFormData);
               setCreateType("adventurepost");
             }}
             variant="outlined"
@@ -42,6 +55,8 @@ const AddPostPage = () => {
             postName="feedPost"
             postLabel="Feed Post Name"
             type="feedPost"
+            formData={formData}
+            setFormData={setFormData}
           />
         </>
       )}
@@ -54,6 +69,8 @@ const AddPostPage = () => {
             postName="adventurepost"
             postLabel="Adventure Post Name"
             type="adventurepost"
+            formData={formData}
+            setFormData={setFormData}
           />
         </>
       )}

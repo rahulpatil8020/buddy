@@ -55,7 +55,7 @@ export default function AppHeader() {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user?.user);
     if (user) {
-      dispatch({ type: "GETUSER", payload: user });
+      dispatch({ type: "GET_USER", payload: user });
     }
   }, [location]);
   return (
