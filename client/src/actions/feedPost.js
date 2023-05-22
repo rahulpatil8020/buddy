@@ -1,9 +1,9 @@
 import {
-  CREATE,
-  UPDATE,
-  DELETE,
-  GET_ALL,
-  GET_ONE,
+  CREATE_FEEDPOST,
+  UPDATE_FEEDPOST,
+  DELETE_FEEDPOST,
+  GET_ALL_FEEDPOST,
+  GET_ONE_FEEDPOST,
 } from "../constants/actionTypes";
 
 import * as api from "../api/index";
@@ -12,7 +12,7 @@ export const getAllFeedPosts = () => async (dispatch) => {
   try {
     const { data } = await api.getAllFeedPosts();
     dispatch({
-      type: GET_ALL,
+      type: GET_ALL_FEEDPOST,
       payload: data,
     });
   } catch (error) {
@@ -24,7 +24,7 @@ export const getFeedPost = (id) => async (dispatch) => {
   try {
     const { data } = await api.getFeedPost(id);
     dispatch({
-      type: GET_ONE,
+      type: GET_ONE_FEEDPOST,
       payload: data,
     });
   } catch (error) {
@@ -36,7 +36,7 @@ export const createFeedPost = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.createFeedPost(post);
     dispatch({
-      type: CREATE,
+      type: CREATE_FEEDPOST,
       payload: data,
     });
     navigate("/feed");
@@ -49,7 +49,7 @@ export const updateFeedPost = (post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.updateFeedPost(post);
     dispatch({
-      type: UPDATE,
+      type: UPDATE_FEEDPOST,
       payload: data,
     });
     navigate("/feed");
@@ -62,7 +62,7 @@ export const deleteFeedPost = (id) => async (dispatch) => {
   try {
     const { data } = await api.deleteFeedPost(id);
     dispatch({
-      type: DELETE,
+      type: DELETE_FEEDPOST,
       payload: data,
     });
   } catch (error) {
@@ -74,7 +74,7 @@ export const likeFeedPost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likeFeedPost(id);
     dispatch({
-      type: UPDATE,
+      type: UPDATE_FEEDPOST,
       payload: data,
     });
   } catch (error) {

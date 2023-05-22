@@ -1,9 +1,16 @@
 export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
-export const CREATE = "CREATE";
-export const UPDATE = "UPDATE";
-export const DELETE = "DELETE";
-export const GET_ALL = "GET_ALL";
-export const GET_ONE = "GET_ONE";
-export const LIKE = "LIKE";
-export const GETUSER = "GETUSER";
+export const CREATE_ADVENTURE = "CREATE_ADVENTURE";
+export const UPDATE_ADVENTURE = "UPDATE_ADVENTURE";
+export const DELETE_ADVENTURE = "DELETE_ADVENTURE";
+export const GET_ALL_ADVENTURES = "GET_ALL_ADVENTURES";
+export const GET_ONE_ADVENTURE = "GET_ONE_ADVENTURE";
+export const LIKE_ADVENTURE = "LIKE_ADVENTURE";
+export const GET_USER = "GET_USER";
+
+export const CREATE_FEEDPOST = "CREATE_FEEDPOST";
+export const UPDATE_FEEDPOST = "UPDATE_FEEDPOST";
+export const DELETE_FEEDPOST = "DELETE_FEEDPOST";
+export const GET_ONE_FEEDPOST = "GET_ONE_FEEDPOST";
+export const GET_ALL_FEEDPOST = "GET_ALL_FEEDPOST";
+export const LIKE_FEEDPOST = "LIKE_FEEDPOST";

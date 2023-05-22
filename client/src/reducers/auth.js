@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, GETUSER } from "../constants/actionTypes";
+import { AUTH, LOGOUT, GET_USER } from "../constants/actionTypes";
 
 const authReducer = (state = { authData: null }, action) => {
   switch (action.type) {
@@ -8,7 +8,7 @@ const authReducer = (state = { authData: null }, action) => {
     case LOGOUT:
       localStorage.removeItem("user");
       return { ...state, authData: null };
-    case GETUSER:
+    case GET_USER:
       return { ...state, authData: action?.payload };
     default:
       return state;

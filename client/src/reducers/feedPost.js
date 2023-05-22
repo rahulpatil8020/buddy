@@ -1,25 +1,25 @@
 import {
-  CREATE,
-  UPDATE,
-  DELETE,
-  GET_ALL,
-  GET_ONE,
-  LIKE,
+  CREATE_FEEDPOST,
+  UPDATE_FEEDPOST,
+  DELETE_FEEDPOST,
+  GET_ALL_FEEDPOST,
+  GET_ONE_FEEDPOST,
+  LIKE_FEEDPOST,
 } from "../constants/actionTypes";
 
 const feedPostReducer = (feedPost = [], action) => {
   switch (action.type) {
-    case CREATE:
+    case CREATE_FEEDPOST:
       return [...feedPost, action.payload];
-    case UPDATE:
+    case UPDATE_FEEDPOST:
       return feedPost;
-    case DELETE:
+    case DELETE_FEEDPOST:
       return feedPost.filter((post) => post._id !== action.payload);
-    case GET_ALL:
+    case GET_ALL_FEEDPOST:
       return action.payload;
-    case GET_ONE:
+    case GET_ONE_FEEDPOST:
       return action.payload;
-    case LIKE:
+    case LIKE_FEEDPOST:
       return feedPost;
     default:
       return feedPost;
