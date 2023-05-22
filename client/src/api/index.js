@@ -15,6 +15,7 @@ export const deleteAdventurePost = (id) => API.delete(`adventures/${id}`);
 export const likeAdventurePost = (id) => API.patch(`adventures/${id}/like`);
 
 export const getAllFeedPosts = () => API.get("feedPosts/");
+
 export const getFeedPost = (id) => API.get(`feedPosts/${id}`);
 export const createFeedPost = (formData) => API.post("feedPosts/", formData);
 export const updateFeedPost = (id, formData) =>

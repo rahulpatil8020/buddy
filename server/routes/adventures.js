@@ -6,7 +6,7 @@ import {
   updateAdventurePost,
   deleteAdventurePost,
 } from "../controllers/adventureController.js";
-import auth from "../middleware/auth.js";
+// import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/", getAllAdventurePosts);
 router.get("/:id", getAdventurePost);
 router.post("/", createAdventurePost);
-router.patch("/:id", auth, updateAdventurePost);
-router.delete("/:id", auth, deleteAdventurePost);
+router.patch("/:id", updateAdventurePost);
+router.delete("/:id", deleteAdventurePost);
 
 export default router;

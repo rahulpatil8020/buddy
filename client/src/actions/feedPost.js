@@ -11,6 +11,7 @@ import * as api from "../api/index";
 export const getAllFeedPosts = () => async (dispatch) => {
   try {
     const { data } = await api.getAllFeedPosts();
+
     dispatch({
       type: GET_ALL_FEEDPOST,
       payload: data,

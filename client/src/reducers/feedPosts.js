@@ -7,7 +7,7 @@ import {
   LIKE_FEEDPOST,
 } from "../constants/actionTypes";
 
-const feedPostReducer = (feedPost = [], action) => {
+const feedPostsReducer = (feedPost = [], action) => {
   switch (action.type) {
     case CREATE_FEEDPOST:
       return [...feedPost, action.payload];
@@ -25,4 +25,4 @@ const feedPostReducer = (feedPost = [], action) => {
       return feedPost;
   }
 };
-export default feedPostReducer;
+export default feedPostsReducer;

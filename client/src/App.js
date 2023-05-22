@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getAllAdventurePosts } from "./actions/adventurePosts";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import { getAllFeedPosts } from "./actions/feedPost";
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,6 +28,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllAdventurePosts());
+    dispatch(getAllFeedPosts());
   }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
