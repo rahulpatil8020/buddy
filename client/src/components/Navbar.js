@@ -8,8 +8,23 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
-import { styles } from "./styles";
 import { useLocation } from "react-router-dom";
+
+const navigationBarAction = {
+  color: "white",
+  borderRadius: 4,
+  "&:hover": {
+    transform: "scale(1.1)",
+  },
+  "&.Mui-selected": {
+    transition: "0.3s",
+    transform: "scale(1.1)",
+    backgroundColor: "#6418c9",
+  },
+  "&.MuiBottomNavigationAction-root.Mui-selected": {
+    color: "white",
+  },
+};
 export default function Navbar() {
   const [value, setValue] = useState(window.location.pathname.slice(1));
   const location = useLocation();
@@ -18,9 +33,25 @@ export default function Navbar() {
     setValue(location.pathname.slice(1));
   }, [location]);
   return (
-    <Box sx={styles.navigationBarBox}>
+    <Box
+      sx={[
+        {
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "fixed",
+          bottom: 30,
+        },
+        (theme) => ({
+          [theme.breakpoints.down("sm")]: {
+            bottom: 2,
+          },
+        }),
+      ]}
+    >
       <BottomNavigation
-        sx={styles.navigationBar}
+        sx={{ backgroundColor: "#7cc918", borderRadius: 4 }}
         defaultValue={"Nearby"}
         showLabels
         value={value}
@@ -29,7 +60,7 @@ export default function Navbar() {
         }}
       >
         <BottomNavigationAction
-          sx={styles.navigationBarAction}
+          sx={navigationBarAction}
           LinkComponent={Link}
           to="/"
           value={""}
@@ -38,7 +69,7 @@ export default function Navbar() {
         />
 
         <BottomNavigationAction
-          sx={styles.navigationBarAction}
+          sx={navigationBarAction}
           LinkComponent={Link}
           to="/feed"
           value={"feed"}
@@ -46,14 +77,14 @@ export default function Navbar() {
           icon={<PublicIcon />}
         />
         <BottomNavigationAction
-          sx={styles.navigationBarAction}
+          sx={navigationBarAction}
           LinkComponent={Link}
           to="/addPost"
           value={"addPost"}
           icon={<AddCircleIcon />}
         />
         <BottomNavigationAction
-          sx={styles.navigationBarAction}
+          sx={navigationBarAction}
           LinkComponent={Link}
           to="/chat"
           value={"chat"}
@@ -61,7 +92,7 @@ export default function Navbar() {
           icon={<ChatIcon />}
         />
         <BottomNavigationAction
-          sx={styles.navigationBarAction}
+          sx={navigationBarAction}
           LinkComponent={Link}
           to="/profile"
           value={"profile"}

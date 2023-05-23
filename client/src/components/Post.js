@@ -12,16 +12,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import {
-  likeAdventurePost,
-  deleteAdventurePost,
-} from "../../actions/adventurePosts";
-// import useStyles from "./styles";
-
-const AdventurePost = ({ post }) => {
+const Post = ({ post, likePost, deletePost }) => {
   const dispatch = useDispatch();
-  // const classes = useStyles();
-
   return (
     <Card
       sx={{
@@ -32,7 +24,6 @@ const AdventurePost = ({ post }) => {
         height: "100%",
         position: "relative",
       }}
-      // className={classes.card}
     >
       <CardMedia
         sx={{
@@ -41,7 +32,6 @@ const AdventurePost = ({ post }) => {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           backgroundBlendMode: "darken",
         }}
-        // className={classes.media}
         image={
           post.image ||
           "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
@@ -50,10 +40,9 @@ const AdventurePost = ({ post }) => {
       />
       <div
         sx={{ position: "absolute", top: "20px", left: "20px", color: "white" }}
-        // className={classes.overlay}
       >
-        <Typography variant="h6">{post.creator}</Typography>
-        <Typography variant="body2">
+        {/* <Typography variant="h6">{post.createdBy}</Typography> */}
+        <Typography sx={{ paddingLeft: 2 }} variant="body2">
           {moment(post.createdOn).fromNow()}
         </Typography>
       </div>
@@ -64,13 +53,8 @@ const AdventurePost = ({ post }) => {
           right: "20px",
           color: "white",
         }}
-        // className={classes.overlay2}
       >
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          // onClick={() => setCurrentId(post._id)}
-        >
+        <Button style={{ color: "white" }} size="small">
           <MoreHorizIcon fontSize="default" />
         </Button>
       </div>
@@ -80,15 +64,18 @@ const AdventurePost = ({ post }) => {
           justifyContent: "space-between",
           margin: "20px",
         }}
-        // className={classes.details}
       >
-        <Typography variant="body2" color="textSecondary" component="h2">
+        <Typography
+          sx={{ paddingLeft: 2 }}
+          variant="body2"
+          color="textSecondary"
+          component="h2"
+        >
           {post.tags.map((tag) => `${tag} `)}
         </Typography>
       </div>
       <Typography
         sx={{ padding: "0 16px" }}
-        // className={classes.title}
         gutterBottom
         variant="h5"
         component="h2"
@@ -106,19 +93,18 @@ const AdventurePost = ({ post }) => {
           display: "flex",
           justifyContent: "space-between",
         }}
-        // className={classes.cardActions}
       >
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(likeAdventurePost(post._id))}
+          onClick={() => dispatch(likePost(post._id))}
         >
           <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}{" "}
         </Button>
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(deleteAdventurePost(post._id))}
+          onClick={() => dispatch(deletePost(post._id))}
         >
           <DeleteIcon fontSize="small" /> Delete
         </Button>
@@ -127,4 +113,4 @@ const AdventurePost = ({ post }) => {
   );
 };
 
-export default AdventurePost;
+export default Post;

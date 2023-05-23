@@ -7,11 +7,9 @@ import {
   Grid,
   Button,
   Box,
-  TextField,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Input from "../../components/Input";
-import { styles } from "./styles";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, signup } from "../../actions/auth";
@@ -55,7 +53,18 @@ const Auth = () => {
   return (
     <>
       <Container maxWidth={"xs"}>
-        <Paper sx={styles.formPaper}>
+        <Paper
+          sx={{
+            marginTop: "20px",
+            boxShadow:
+              "0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19)",
+            borderRadius: "15px",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -71,7 +80,7 @@ const Auth = () => {
             <Typography component="h5" variant="h5">
               {isSignup ? "Sign Up" : "Sign In"}
             </Typography>
-          </Box>{" "}
+          </Box>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               {isSignup ? (
@@ -117,7 +126,7 @@ const Auth = () => {
               ) : null}
             </Grid>
             <Button
-              sx={styles.formSubmitButton}
+              sx={{ marginTop: (theme) => `${theme.spacing(3)}` }}
               type="submit"
               fullWidth
               variant="contained"

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import HomePage from "./pages/Home/HomePage";
-import AppHeader from "./components/AppHeader/AppHeader";
+import AppHeader from "./components/AppHeader";
 import FeedPage from "./pages/Feed/FeedPage";
 import AddPostPage from "./pages/AddPost/AddPostPage";
 import ChatPage from "./pages/Chat/ChatPage";
 import Auth from "./pages/Auth/Auth";
 import ProfilePage from "./pages/Profile/ProfilePage";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material";

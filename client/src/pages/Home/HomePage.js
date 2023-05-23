@@ -1,8 +1,11 @@
 import React from "react";
 import { Grid, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
-import AdventurePost from "../../components/AdventurePost/AdventurePost";
-
+import Post from "../../components/Post";
+import {
+  likeAdventurePost,
+  deleteAdventurePost,
+} from "../../actions/adventurePosts";
 // import useStyles from './styles';
 
 const HomePage = ({ setCurrentId }) => {
@@ -20,8 +23,12 @@ const HomePage = ({ setCurrentId }) => {
       spacing={3}
     >
       {posts.map((post) => (
-        <Grid key={post._id} item xs={12} sm={4} md={4}>
-          <AdventurePost post={post} />
+        <Grid key={post._id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
+          <Post
+            post={post}
+            likePost={likeAdventurePost}
+            deletePost={deleteAdventurePost}
+          />
         </Grid>
       ))}
     </Grid>
