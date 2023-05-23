@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost } from "../actions/feedPost";
-
+import FileBase from "react-file-base64";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -153,18 +153,15 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 direction={"row"}
                 spacing={1}
               >
-                <input
+                <FileBase
                   accept="image/*"
                   style={{ display: "none" }}
                   id="raised-button-file"
                   type="file"
-                  onChange={onFileChange}
+                  onDone={({ base64 }) =>
+                    setFormData({ ...formData, image: base64 })
+                  }
                 />
-                <label htmlFor="raised-button-file">
-                  <Button variant="outlined" component="span">
-                    Select Post Image
-                  </Button>
-                </label>
                 <Typography>{selectedImage?.name}</Typography>
               </Stack>
             </Grid>
