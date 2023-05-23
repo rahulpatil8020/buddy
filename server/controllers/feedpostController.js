@@ -1,5 +1,5 @@
 import FeedPost from "../models/feedPost.js";
-
+import mongoose from "mongoose";
 // Controller to get All Adventure Posts
 export const getAllFeedPosts = async (req, res) => {
   try {
@@ -39,9 +39,13 @@ export const updateFeedPost = (req, res) => {
 };
 
 // Controller to delete a specific Adventure Post based on the Id that's been sent thorugh req.body
-export const deleteFeedPost = (req, res) => {
-  try {
-  } catch (error) {
-    console.log(error);
-  }
+export const deleteFeedPost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await FeedPost.findByIdAndRemove(id);
+
+  res.json({ message: "Post deleted successfully." });
 };

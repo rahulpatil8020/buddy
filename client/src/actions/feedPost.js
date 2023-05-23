@@ -64,7 +64,7 @@ export const deleteFeedPost = (id) => async (dispatch) => {
     const { data } = await api.deleteFeedPost(id);
     dispatch({
       type: DELETE_FEEDPOST,
-      payload: data,
+      payload: id,
     });
   } catch (error) {
     console.log(error);

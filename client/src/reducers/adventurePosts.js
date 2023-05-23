@@ -16,7 +16,7 @@ const adventurePostsReducer = (adventurePosts = [], action) => {
       return adventurePosts;
 
     case DELETE_ADVENTURE:
-      return adventurePosts;
+      return adventurePosts.filter((post) => post._id !== action.payload);
     case GET_ALL_ADVENTURES:
       return action.payload;
 

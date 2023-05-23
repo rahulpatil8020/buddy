@@ -59,10 +59,10 @@ export const updateAdventurePost = (id, post) => async (dispatch) => {
 
 export const deleteAdventurePost = (id) => async (dispatch) => {
   try {
-    const { data } = await api.deleteAdventurePost(id);
+    await api.deleteAdventurePost(id);
     dispatch({
       type: DELETE_ADVENTURE,
-      payload: data,
+      payload: id,
     });
   } catch (error) {
     console.log(error);
