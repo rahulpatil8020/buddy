@@ -10,7 +10,9 @@ import {
   DialogTitle,
   DialogActions,
   Slide,
+  InputAdornment,
 } from "@mui/material";
+import TagIcon from "@mui/icons-material/Tag";
 import React, { useState } from "react";
 import Input from "./Input";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,15 +104,24 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 variant="outlined"
                 type="text"
                 value={tagText}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <TagIcon />
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e) => {
-                  setTagText(e.target.value);
+                  setTagText(
+                    e.target.value.trim().replace(/[^a-zA-Z0-9 ]/g, "")
+                  );
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
                     setFormData({
                       ...formData,
-                      tags: [...formData.tags, tagText],
+                      tags: [...formData.tags, `#${tagText}`],
                     });
                     setTagText("");
                   }
