@@ -5,6 +5,7 @@ import {
   createFeedPost,
   updateFeedPost,
   deleteFeedPost,
+  likeFeedPost,
 } from "../controllers/feedPostController.js";
 // import auth from "../middleware/auth.js";
 
@@ -16,5 +17,6 @@ router.get("/:id", getFeedPost);
 router.post("/", createFeedPost);
 router.patch("/:id", updateFeedPost);
 router.delete("/:id", deleteFeedPost);
+router.patch("/:id/like", likeFeedPost);
 
 export default router;

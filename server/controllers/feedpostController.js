@@ -1,5 +1,5 @@
 import FeedPost from "../models/feedPost.js";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 // Controller to get All Adventure Posts
 export const getAllFeedPosts = async (req, res) => {
   try {
@@ -31,21 +31,50 @@ export const getFeedPost = async (req, res) => {
 };
 
 // Controller to update a specific Adventure Post based on the Id that's been sent through req. body
-export const updateFeedPost = (req, res) => {
+export const updateFeedPost = async (req, res) => {
+  const feedPost = req.body;
+  const id = req.params.id;
+
   try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+    const updatedFeedPost = feedPost;
+    await FeedPost.findByIdAndUpdate(id, updatedFeedPost, { new: true });
+    res.staus(200).json(updatedFeedPost);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 
 // Controller to delete a specific Adventure Post based on the Id that's been sent thorugh req.body
 export const deleteFeedPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+
+    await FeedPost.findByIdAndRemove(id);
+
+    res.status(200).json({ message: "Post deleted successfully." });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const likeFeedPost = async (req, res) => {
   const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
-
-  await FeedPost.findByIdAndRemove(id);
-
-  res.json({ message: "Post deleted successfully." });
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+    const feedPost = await FeedPost.findById(id);
+    const updatedPost = await FeedPost.findByIdAndUpdate(
+      id,
+      { likes: feedPost.likes + 1 },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.log(error.message);
+  }
 };

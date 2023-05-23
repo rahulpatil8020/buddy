@@ -4,6 +4,7 @@ import {
   DELETE_FEEDPOST,
   GET_ALL_FEEDPOST,
   GET_ONE_FEEDPOST,
+  LIKE_FEEDPOST,
 } from "../constants/actionTypes";
 
 import * as api from "../api/index";
@@ -75,10 +76,10 @@ export const likeFeedPost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likeFeedPost(id);
     dispatch({
-      type: UPDATE_FEEDPOST,
+      type: LIKE_FEEDPOST,
       payload: data,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };

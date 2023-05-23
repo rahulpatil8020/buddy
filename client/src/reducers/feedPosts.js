@@ -12,7 +12,9 @@ const feedPostsReducer = (feedPost = [], action) => {
     case CREATE_FEEDPOST:
       return [...feedPost, action.payload];
     case UPDATE_FEEDPOST:
-      return feedPost;
+      return feedPost.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case DELETE_FEEDPOST:
       return feedPost.filter((post) => post._id !== action.payload);
     case GET_ALL_FEEDPOST:
@@ -20,7 +22,9 @@ const feedPostsReducer = (feedPost = [], action) => {
     case GET_ONE_FEEDPOST:
       return action.payload;
     case LIKE_FEEDPOST:
-      return feedPost;
+      return feedPost.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     default:
       return feedPost;
   }

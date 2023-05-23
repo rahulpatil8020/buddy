@@ -28,7 +28,6 @@ const HomePage = ({ setCurrentId }) => {
         paddingTop: 2,
         paddingBottom: 20,
       }}
-      // className={classes.container}
       container
       alignItems="stretch"
       spacing={3}
