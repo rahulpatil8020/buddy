@@ -12,13 +12,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import {
-  likeAdventurePost,
-  deleteAdventurePost,
-} from "../../actions/adventurePosts";
+import { likeFeedPost, deleteFeedPost } from "../actions/feedPost";
 // import useStyles from "./styles";
 
-const AdventurePost = ({ post }) => {
+const FeedPost = ({ post }) => {
   const dispatch = useDispatch();
   // const classes = useStyles();
 
@@ -111,14 +108,14 @@ const AdventurePost = ({ post }) => {
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(likeAdventurePost(post._id))}
+          onClick={() => dispatch(likeFeedPost(post._id))}
         >
           <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}{" "}
         </Button>
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(deleteAdventurePost(post._id))}
+          onClick={() => dispatch(deleteFeedPost(post._id))}
         >
           <DeleteIcon fontSize="small" /> Delete
         </Button>
@@ -127,4 +124,4 @@ const AdventurePost = ({ post }) => {
   );
 };
 
-export default AdventurePost;
+export default FeedPost;
