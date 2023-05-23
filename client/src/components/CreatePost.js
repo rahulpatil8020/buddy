@@ -20,17 +20,18 @@ import { debounce } from "@mui/material/utils";
 import TagIcon from "@mui/icons-material/Tag";
 import React, { useState } from "react";
 import Input from "./Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost } from "../actions/feedPost";
 import FileBase from "react-file-base64";
+import { getGoogleMapsAPIKey } from "../api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyCM-BTURlG-E1L9qZX1auBypFzhWEtX2ko";
+// const GOOGLE_MAPS_API_KEY = "AIzaSyCM-BTURlG-E1L9qZX1auBypFzhWEtX2ko";
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -47,6 +48,9 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
+  const googleMapsAPIKey = useSelector(
+    (state) => state.apiKeysReducer?.googleMapsAPIKey
+  );
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -87,18 +91,6 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
     });
   };
 
-  if (typeof window !== "undefined" && !loaded.current) {
-    if (!document.querySelector("#google-maps")) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
-        document.querySelector("head"),
-        "google-maps"
-      );
-    }
-
-    loaded.current = true;
-  }
-
   const fetch = React.useMemo(
     () =>
       debounce((request, callback) => {
@@ -106,6 +98,19 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
       }, 400),
     []
   );
+  if (googleMapsAPIKey) {
+    if (typeof window !== "undefined" && !loaded.current) {
+      if (!document.querySelector("#google-maps")) {
+        loadScript(
+          `https://maps.googleapis.com/maps/api/js?key=${googleMapsAPIKey}&libraries=places`,
+          document.querySelector("head"),
+          "google-maps"
+        );
+      }
+
+      loaded.current = true;
+    }
+  }
 
   React.useEffect(() => {
     let active = true;

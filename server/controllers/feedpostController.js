@@ -1,5 +1,5 @@
 import FeedPost from "../models/feedPost.js";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 // Controller to get All Adventure Posts
 export const getAllFeedPosts = async (req, res) => {
   try {

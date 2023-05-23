@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { getAllAdventurePosts } from "./actions/adventurePosts";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { getAllFeedPosts } from "./actions/feedPost";
+import { getGoogleMapsAPIKey } from "./actions/apiKeys";
 const theme = createTheme({
   palette: {
     primary: {
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     dispatch(getAllAdventurePosts());
     dispatch(getAllFeedPosts());
+    dispatch(getGoogleMapsAPIKey());
   }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>

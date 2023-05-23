@@ -14,7 +14,7 @@ const AddPostPage = () => {
     location: "",
   };
   const [formData, setFormData] = useState(initialFormData);
-  const [createType, setCreateType] = useState("feedPost");
+  const [createType, setCreateType] = useState("adventurepost");
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
       <Stack
