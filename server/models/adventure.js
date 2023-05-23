@@ -6,6 +6,7 @@ const adventureSchema = mongoose.Schema({
   createdBy: String,
   tags: [String],
   image: String,
+  location: String,
   adventureres: {
     type: Number,
     default: 1,

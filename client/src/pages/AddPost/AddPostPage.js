@@ -11,6 +11,7 @@ const AddPostPage = () => {
     image: "",
     createdBy: authData?.user?._id,
     creatorName: authData?.user?.name,
+    location: "",
   };
   const [formData, setFormData] = useState(initialFormData);
   const [createType, setCreateType] = useState("feedPost");
