@@ -11,6 +11,7 @@ import {
   DialogActions,
   Slide,
   InputAdornment,
+  Alert,
 } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import React, { useState } from "react";
@@ -44,6 +45,9 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
     setSelectedImage(e.target.files[0]);
   };
   const confirmSubmit = (e) => {
+    if (formData.details.length < 150) {
+      return;
+    }
     e.preventDefault();
     if (type === "feedPost") {
       dispatch(createFeedPost(formData, navigate));
@@ -94,6 +98,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               type="text"
               autoComplete="off"
               half
+              value={formData.title}
             />
 
             <Grid item xs={12} sm={6}>
@@ -146,6 +151,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               autoComplete="off"
               rows={4}
               multiline
+              value={formData.details}
             />
             <Grid item sm={6} xs={12}>
               <Stack
@@ -154,6 +160,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 spacing={1}
               >
                 <FileBase
+                  value={formData.image}
                   accept="image/*"
                   style={{ display: "none" }}
                   id="raised-button-file"

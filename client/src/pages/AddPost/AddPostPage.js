@@ -1,4 +1,4 @@
-import { Container, Typography, Button, Stack } from "@mui/material";
+import { Container, Typography, Button, Stack, Alert } from "@mui/material";
 import React, { useState } from "react";
 import CreatePost from "../../components/CreatePost";
 import { useSelector } from "react-redux";
@@ -72,6 +72,11 @@ const AddPostPage = () => {
             setFormData={setFormData}
           />
         </>
+      )}
+      {formData.details.split(" ").length < 50 && (
+        <Alert sx={{ marginTop: 2 }} severity="info">
+          The Details should be 50 words at least
+        </Alert>
       )}
     </Container>
   );

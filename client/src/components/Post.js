@@ -8,13 +8,24 @@ import {
   Typography,
   CardHeader,
   Tooltip,
+  Avatar,
+  IconButton,
+  Skeleton,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-const Post = ({ post, likePost, deletePost }) => {
+import { useDispatch, useSelector } from "react-redux";
+
+function stringAvatar(name) {
+  return {
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
+}
+
+const Post = ({ post, likePost, deletePost, loading }) => {
+  const authData = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
   return (
     <Card
@@ -28,6 +39,17 @@ const Post = ({ post, likePost, deletePost }) => {
       }}
     >
       <CardHeader
+        avatar={
+          <Avatar
+            alt="User Profile"
+            {...stringAvatar(`${authData?.user?.name}`)}
+          />
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
         sx={{
           "& .MuiCardHeader-content": {
             display: "block",
@@ -36,7 +58,7 @@ const Post = ({ post, likePost, deletePost }) => {
         }}
         title={
           <Tooltip title={post.title} arrow placement="top">
-            <Typography variant="h6" noWrap>
+            <Typography variant="body1" noWrap sx={{ fontWeight: 500 }}>
               {post.title}
             </Typography>
           </Tooltip>
@@ -65,26 +87,36 @@ const Post = ({ post, likePost, deletePost }) => {
         }}
       >
         {/* <Typography variant="h6">{post.createdBy}</Typography> */}
-        <Typography sx={{ paddingLeft: 2 }} variant="body2">
+        {/* <Typography sx={{ paddingLeft: 2 }} variant="body2">
           {moment(post.createdOn).fromNow()}
         </Typography>
         <Button style={{ color: "blue" }} size="large">
           <MoreHorizIcon fontSize="medium" />
-        </Button>
+        </Button> */}
       </div>
-      <div>
+      <Typography
+        sx={{ paddingLeft: 2 }}
+        variant="body2"
+        color="textSecondary"
+        component="h2"
+      >
+        {post?.tags?.slice(0, 2).map((tag) => `${tag} `)}
+      </Typography>
+      <CardContent>
         <Typography
-          sx={{ paddingLeft: 2 }}
+          sx={{
+            textAlign: "justify",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: "4",
+            WebkitBoxOrient: "vertical",
+          }}
           variant="body2"
           color="textSecondary"
-          component="h2"
+          component="p"
         >
-          {post?.tags?.slice(0, 2).map((tag) => `${tag} `)}
-        </Typography>
-      </div>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {post.details}
+          {post.details.substring(0, 150)}
         </Typography>
       </CardContent>
       <CardActions
