@@ -12,9 +12,7 @@ const FeedPage = ({ setCurrentId }) => {
       setLoading(false);
     }
   }, posts);
-  return !posts.length ? (
-    <Typography>No Posts Yet</Typography>
-  ) : (
+  return (
     <Grid
       sx={{
         display: "flex",

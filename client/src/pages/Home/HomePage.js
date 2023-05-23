@@ -18,7 +18,7 @@ const HomePage = ({ setCurrentId }) => {
       setLoading(false);
     }
   }, posts);
-  return posts.length > 0 ? (
+  return (
     <Grid
       sx={{
         display: "flex",
@@ -50,8 +50,6 @@ const HomePage = ({ setCurrentId }) => {
         )
       )}
     </Grid>
-  ) : (
-    <Typography>No Posts Yet</Typography>
   );
 };
 
