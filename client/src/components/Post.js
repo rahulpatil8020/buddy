@@ -6,6 +6,8 @@ import {
   CardMedia,
   Button,
   Typography,
+  CardHeader,
+  Tooltip,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +27,22 @@ const Post = ({ post, likePost, deletePost }) => {
         position: "relative",
       }}
     >
+      <CardHeader
+        sx={{
+          "& .MuiCardHeader-content": {
+            display: "block",
+            overflow: "hidden",
+          },
+        }}
+        title={
+          <Tooltip title={post.title} arrow placement="top">
+            <Typography variant="h6" noWrap>
+              {post.title}
+            </Typography>
+          </Tooltip>
+        }
+        subheader={moment(post.createdOn).fromNow()}
+      />
       <CardMedia
         sx={{
           height: 0,
@@ -39,49 +57,31 @@ const Post = ({ post, likePost, deletePost }) => {
         title={post.title}
       />
       <div
-        sx={{ position: "absolute", top: "20px", left: "20px", color: "white" }}
+        style={{
+          display: "flex",
+          flexDirection: "horizontal",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
         {/* <Typography variant="h6">{post.createdBy}</Typography> */}
         <Typography sx={{ paddingLeft: 2 }} variant="body2">
           {moment(post.createdOn).fromNow()}
         </Typography>
-      </div>
-      <div
-        sx={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-          color: "white",
-        }}
-      >
-        <Button style={{ color: "white" }} size="small">
-          <MoreHorizIcon fontSize="default" />
+        <Button style={{ color: "blue" }} size="large">
+          <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>
-      <div
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "20px",
-        }}
-      >
+      <div>
         <Typography
           sx={{ paddingLeft: 2 }}
           variant="body2"
           color="textSecondary"
           component="h2"
         >
-          {post.tags.map((tag) => `${tag} `)}
+          {post?.tags?.slice(0, 2).map((tag) => `${tag} `)}
         </Typography>
       </div>
-      <Typography
-        sx={{ padding: "0 16px" }}
-        gutterBottom
-        variant="h5"
-        component="h2"
-      >
-        {post.title}
-      </Typography>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {post.details}

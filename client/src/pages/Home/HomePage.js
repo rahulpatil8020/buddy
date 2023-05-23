@@ -16,7 +16,14 @@ const HomePage = ({ setCurrentId }) => {
     <CircularProgress />
   ) : (
     <Grid
-      sx={{ display: "flex", alignItems: "center", spacing: 2, padding: 2 }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        spacing: 2,
+        paddingX: 2,
+        paddingTop: 2,
+        paddingBottom: 20,
+      }}
       // className={classes.container}
       container
       alignItems="stretch"

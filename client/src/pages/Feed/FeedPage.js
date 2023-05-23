@@ -11,7 +11,14 @@ const FeedPage = ({ setCurrentId }) => {
     <CircularProgress />
   ) : (
     <Grid
-      sx={{ display: "flex", alignItems: "center", padding: 2 }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        padding: 2,
+        paddingX: 2,
+        paddingTop: 2,
+        paddingBottom: 20,
+      }}
       container
       alignItems="stretch"
       spacing={3}
