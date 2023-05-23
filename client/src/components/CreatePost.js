@@ -296,7 +296,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 />
               </Grid>
             ) : null}
-            <Grid item sm={6} xs={12}>
+            <Grid item sm={type === "feedPost" ? 12 : 6} xs={12}>
               {formData.tags?.map((i) => {
                 return (
                   <Chip
