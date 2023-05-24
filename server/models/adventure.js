@@ -4,6 +4,7 @@ const adventureSchema = mongoose.Schema({
   title: String,
   details: String,
   createdBy: String,
+  creatorName: String,
   tags: [String],
   image: String,
   location: String,
