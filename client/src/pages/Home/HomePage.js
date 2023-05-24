@@ -17,7 +17,7 @@ const HomePage = ({ setCurrentId }) => {
     if (posts?.length > 0) {
       setLoading(false);
     }
-  }, posts);
+  }, [posts]);
   return (
     <Grid
       sx={{

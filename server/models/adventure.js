@@ -8,13 +8,10 @@ const adventureSchema = mongoose.Schema({
   tags: [String],
   image: String,
   location: String,
-  adventureres: [String],
-  interests: [String],
-  adventureresCount: {
-    type: Number,
-    default: 1,
-  },
-  interestsCount: {
+  likes: { type: Number, default: 0 },
+  likedBy: [String],
+  adventureParticipants: [String],
+  adventureParticipantsCount: {
     type: Number,
     default: 1,
   },
@@ -24,6 +21,7 @@ const adventureSchema = mongoose.Schema({
   },
   adventureDate: {
     type: Date,
+    default: new Date(),
   },
 });
 

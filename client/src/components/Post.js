@@ -39,7 +39,6 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const open = Boolean(anchorEl);
 
   const handleDialogClose = () => {

@@ -4,6 +4,8 @@ import {
   DELETE_ADVENTURE,
   GET_ALL_ADVENTURES,
   GET_ONE_ADVENTURE,
+  LIKE_ADVENTURE,
+  ADD_ADVENTURE_PARTICIPANT,
 } from "../constants/actionTypes";
 
 import * as api from "../api/index";
@@ -70,11 +72,24 @@ export const deleteAdventurePost = (id) => async (dispatch) => {
   }
 };
 
-export const likeAdventurePost = (id) => async (dispatch) => {
+export const likeAdventurePost = (id, userId) => async (dispatch) => {
   try {
-    const { data } = await api.likeAdventurePost(id);
+    const { data } = await api.likeAdventurePost(id, userId);
+    console.log(data);
     dispatch({
-      type: UPDATE_ADVENTURE,
+      type: LIKE_ADVENTURE,
+      payload: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addAdventureParticipant = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.addAdventureParticipant(id);
+    dispatch({
+      type: ADD_ADVENTURE_PARTICIPANT,
       payload: data,
     });
   } catch (error) {
