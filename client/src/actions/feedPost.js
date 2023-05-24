@@ -72,9 +72,9 @@ export const deleteFeedPost = (id) => async (dispatch) => {
   }
 };
 
-export const likeFeedPost = (id) => async (dispatch) => {
+export const likeFeedPost = (id, userId) => async (dispatch) => {
   try {
-    const { data } = await api.likeFeedPost(id);
+    const { data } = await api.likeFeedPost(id, userId);
     dispatch({
       type: LIKE_FEEDPOST,
       payload: data,

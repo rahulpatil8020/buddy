@@ -13,6 +13,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
@@ -129,17 +130,24 @@ const Post = ({ post, likePost, deletePost, loading }) => {
         <Button
           size="small"
           color="primary"
-          onClick={() => dispatch(likePost(post._id))}
+          onClick={() => dispatch(likePost(post._id, authData.user._id))}
         >
-          <ThumbUpAltIcon fontSize="small" /> Like {post.likes}{" "}
+          {post?.likedBy?.includes(authData.user._id) ? (
+            <ThumbUpAltIcon fontSize="small" />
+          ) : (
+            <ThumbUpOffAltIcon fontSize="small" />
+          )}{" "}
+          Like {post.likes > 0 ? post.likes : null}
         </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <DeleteIcon fontSize="small" /> Delete
-        </Button>
+        {post.createdBy === authData.user._id ? (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <DeleteIcon fontSize="small" /> Delete
+          </Button>
+        ) : null}
       </CardActions>
     </Card>
   );

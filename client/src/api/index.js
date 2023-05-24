@@ -21,6 +21,7 @@ export const createFeedPost = (formData) => API.post("feedPosts/", formData);
 export const updateFeedPost = (id, formData) =>
   API.patch(`feedPosts/${id}`, formData);
 export const deleteFeedPost = (id) => API.delete(`feedPosts/${id}`);
-export const likeFeedPost = (id) => API.patch(`feedPosts/${id}/like`);
+export const likeFeedPost = (id, userId) =>
+  API.patch(`feedPosts/${id}/like`, { userId: userId });
 
 export const getGoogleMapsAPIKey = () => API.get("/apiKeys/googlemap");
