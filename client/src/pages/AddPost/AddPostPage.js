@@ -1,7 +1,10 @@
 import { Container, Typography, Button, Stack, Alert } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CreatePost from "../../components/CreatePost";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 const AddPostPage = () => {
   const authData = useSelector((state) => state.authReducer?.authData);
   const initialFormData = {
@@ -13,21 +16,67 @@ const AddPostPage = () => {
     creatorName: authData?.user?.name,
     location: "",
   };
+  const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState(initialFormData);
-  const [createType, setCreateType] = useState("adventurepost");
+  const [createType, setCreateType] = useState(location?.state?.type);
+  // useEffect(() => {
+  //   if (location?.state?.postData?._id) {
+  //     setFormData({
+  //       ...location?.state?.postData,
+  //       createdBy: authData?.user?._id,
+  //       creatorName: authData?.user?.name,
+  //     });
+  //   }
+  // }, [location.state.postData]);
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
-      <Stack
-        alignItems="center"
-        alignContent={"center"}
-        direction={"row"}
-        spacing={3}
-      >
-        {createType === "adventurepost" && (
+      {createType === "feedPost" && (
+        <>
+          {location.state.postData ? (
+            <Typography variant="h4" sx={{ margin: 2 }}>
+              Update Post
+            </Typography>
+          ) : (
+            <Typography variant="h4" sx={{ margin: 2 }}>
+              Create Post
+            </Typography>
+          )}
+          <CreatePost
+            postName="feedPost"
+            postLabel="Feed Post Name"
+            type="feedPost"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </>
+      )}
+      {createType === "adventurePost" && (
+        <>
+          <Typography variant="h4" sx={{ marginX: 2, marginY: 3 }}>
+            Create Adventure
+          </Typography>
+          <CreatePost
+            postName="adventurePost"
+            postLabel="Adventure Post Name"
+            type="adventurePost"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </>
+      )}
+      {formData?.details?.split(" ").length < 50 && (
+        <Alert sx={{ marginTop: 2 }} severity="info">
+          The Details should be 50 words at least
+        </Alert>
+      )}
+      <div style={{ marginTop: 10 }}>
+        {createType === "adventurePost" && (
           <Button
             onClick={() => {
               setFormData(initialFormData);
               setCreateType("feedPost");
+              navigate("/addPost", { state: { type: "feedPost" } });
             }}
             variant="contained"
           >
@@ -38,48 +87,15 @@ const AddPostPage = () => {
           <Button
             onClick={() => {
               setFormData(initialFormData);
-              setCreateType("adventurepost");
+              setCreateType("adventurePost");
+              navigate("/addPost", { state: { type: "adventurePost" } });
             }}
             variant="outlined"
           >
             Create Adventure
           </Button>
         )}
-      </Stack>
-      {createType === "feedPost" && (
-        <>
-          <Typography variant="h4" sx={{ margin: 2 }}>
-            Create Post
-          </Typography>
-
-          <CreatePost
-            postName="feedPost"
-            postLabel="Feed Post Name"
-            type="feedPost"
-            formData={formData}
-            setFormData={setFormData}
-          />
-        </>
-      )}
-      {createType === "adventurepost" && (
-        <>
-          <Typography variant="h4" sx={{ marginX: 2, marginY: 3 }}>
-            Create Adventure
-          </Typography>
-          <CreatePost
-            postName="adventurepost"
-            postLabel="Adventure Post Name"
-            type="adventurepost"
-            formData={formData}
-            setFormData={setFormData}
-          />
-        </>
-      )}
-      {formData.details.split(" ").length < 50 && (
-        <Alert sx={{ marginTop: 2 }} severity="info">
-          The Details should be 50 words at least
-        </Alert>
-      )}
+      </div>
     </Container>
   );
 };

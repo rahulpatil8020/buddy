@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActions,
@@ -10,13 +10,15 @@ import {
   Tooltip,
   Avatar,
   IconButton,
-  Skeleton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 function stringAvatar(name) {
@@ -25,7 +27,19 @@ function stringAvatar(name) {
   };
 }
 
-const Post = ({ post, likePost, deletePost, loading }) => {
+const Post = ({ post, likePost, deletePost, loading, postType }) => {
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleMenuUpdate = () => {
+    navigate("/addPost", { state: { type: postType, postData: post } });
+  };
   const authData = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
   return (
@@ -47,9 +61,32 @@ const Post = ({ post, likePost, deletePost, loading }) => {
           />
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton
+              aria-label="menu-button"
+              id="menu-button"
+              aria-controls={open ? "menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleMenuClick}
+            >
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="menu"
+              aria-labelledby="menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleMenuClose}
+              anchorOrigin={{ vertical: "top", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
+            >
+              <MenuItem onClick={handleMenuClose}>Details</MenuItem>
+              {post.createdBy === authData.user._id ? (
+                <MenuItem onClick={handleMenuUpdate}>Update</MenuItem>
+              ) : null}
+            </Menu>
+          </>
         }
         sx={{
           "& .MuiCardHeader-content": {

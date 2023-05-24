@@ -44,6 +44,7 @@ const HomePage = ({ setCurrentId }) => {
               post={post}
               likePost={likeAdventurePost}
               deletePost={deleteAdventurePost}
+              postType={"adventurePost"}
             />
           </Grid>
         )

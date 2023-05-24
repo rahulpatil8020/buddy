@@ -80,6 +80,7 @@ export default function Navbar() {
           sx={navigationBarAction}
           LinkComponent={Link}
           to="/addPost"
+          state={{ type: "feedPost" }}
           value={"addPost"}
           icon={<AddCircleIcon />}
         />

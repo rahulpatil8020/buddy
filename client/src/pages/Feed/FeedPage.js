@@ -11,7 +11,7 @@ const FeedPage = ({ setCurrentId }) => {
     if (posts.length) {
       setLoading(false);
     }
-  }, posts);
+  }, [posts]);
   return (
     <Grid
       sx={{
@@ -37,6 +37,7 @@ const FeedPage = ({ setCurrentId }) => {
               post={post}
               likePost={likeFeedPost}
               deletePost={deleteFeedPost}
+              postType={"feedPost"}
             />
           </Grid>
         )

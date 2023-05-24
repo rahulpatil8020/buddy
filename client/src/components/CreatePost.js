@@ -25,7 +25,6 @@ import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost } from "../actions/feedPost";
 import FileBase from "react-file-base64";
-import { getGoogleMapsAPIKey } from "../api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -48,6 +47,7 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
+  console.log(formData);
   const googleMapsAPIKey = useSelector(
     (state) => state.apiKeysReducer?.googleMapsAPIKey
   );
@@ -182,7 +182,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               type="text"
               autoComplete="off"
               half
-              value={formData.title}
+              value={formData?.title}
             />
 
             <Grid item xs={12} sm={6}>
@@ -218,7 +218,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 autoComplete="off"
               />
             </Grid>
-            {type === "adventurepost" ? (
+            {type === "adventurePost" ? (
               <Grid item sm={6} xs={12}>
                 <Autocomplete
                   id="adventure-location"
@@ -230,7 +230,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                   autoComplete
                   includeInputInList
                   filterSelectedOptions
-                  value={value}
+                  value={formData.location}
                   noOptionsText="No locations"
                   onChange={(event, newValue) => {
                     setOptions(newValue ? [newValue, ...options] : options);
@@ -302,7 +302,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               </Grid>
             ) : null}
             <Grid item sm={type === "feedPost" ? 12 : 6} xs={12}>
-              {formData.tags?.map((i) => {
+              {formData?.tags?.map((i) => {
                 return (
                   <Chip
                     label={i}
@@ -320,7 +320,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               autoComplete="off"
               rows={4}
               multiline
-              value={formData.details}
+              value={formData?.details}
             />
 
             <Grid item sm={6} xs={12}>
@@ -330,7 +330,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
                 spacing={1}
               >
                 <FileBase
-                  value={formData.image}
+                  // value={formData?.image}
                   accept="image/*"
                   style={{ display: "none" }}
                   id="raised-button-file"
@@ -342,9 +342,23 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
               </Stack>
             </Grid>
             <Grid container justifyContent="center" item sm={6} xs={12}>
-              <Button type="submit" sx={{ marginRight: 3 }} variant="contained">
-                Upload
-              </Button>
+              {formData?._id ? (
+                <Button
+                  type="submit"
+                  sx={{ marginRight: 3 }}
+                  variant="contained"
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  sx={{ marginRight: 3 }}
+                  variant="contained"
+                >
+                  Upload
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Paper>
