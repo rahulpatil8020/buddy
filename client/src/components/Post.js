@@ -63,6 +63,9 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   const handleDeletePost = () => {
     setDialogOpen(true);
   };
+  const handlePostDetails = () => {
+    navigate(`/adventure/${post._id}`, { state: { postData: post } });
+  };
   return (
     <>
       <Dialog
@@ -116,7 +119,7 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
                 anchorOrigin={{ vertical: "top", horizontal: "left" }}
                 transformOrigin={{ vertical: "top", horizontal: "left" }}
               >
-                <MenuItem onClick={handleMenuClose}>Details</MenuItem>
+                <MenuItem onClick={handlePostDetails}>Details</MenuItem>
                 {post.createdBy === authData.user._id ? (
                   <MenuItem onClick={handleMenuUpdate}>Update</MenuItem>
                 ) : null}
@@ -144,7 +147,7 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
           sx={{
             height: 0,
             paddingTop: "56.25%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgba(0, 0, 0, 0.2)",
             backgroundBlendMode: "darken",
           }}
           image={
