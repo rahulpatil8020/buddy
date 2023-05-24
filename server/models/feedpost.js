@@ -10,7 +10,7 @@ const feedPostSchema = mongoose.Schema({
   likedBy: [String],
   likes: {
     type: Number,
-    default: 1,
+    default: 0,
   },
   createdOn: {
     type: Date,
