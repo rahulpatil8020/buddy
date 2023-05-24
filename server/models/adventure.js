@@ -7,11 +7,13 @@ const adventureSchema = mongoose.Schema({
   tags: [String],
   image: String,
   location: String,
-  adventureres: {
+  adventureres: [String],
+  interests: [String],
+  adventureresCount: {
     type: Number,
     default: 1,
   },
-  interests: {
+  interestsCount: {
     type: Number,
     default: 1,
   },

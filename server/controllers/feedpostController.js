@@ -64,13 +64,14 @@ export const deleteFeedPost = async (req, res) => {
 
 export const likeFeedPost = async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
     const feedPost = await FeedPost.findById(id);
     const updatedPost = await FeedPost.findByIdAndUpdate(
       id,
-      { likes: feedPost.likes + 1 },
+      { likes: feedPost.likes + 1, likedBy: [...feedPost.likedBy, userId] },
       { new: true }
     );
     res.status(200).json(updatedPost);
