@@ -69,12 +69,25 @@ export const likeFeedPost = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
     const feedPost = await FeedPost.findById(id);
-    const updatedPost = await FeedPost.findByIdAndUpdate(
-      id,
-      { likes: feedPost.likes + 1, likedBy: [...feedPost.likedBy, userId] },
-      { new: true }
-    );
-    res.status(200).json(updatedPost);
+    if (feedPost?.likedBy?.includes(userId)) {
+      const updatedPost = await FeedPost.findByIdAndUpdate(
+        id,
+        {
+          likes: feedPost.likes - 1,
+          likedBy: feedPost?.likedBy.filter((user) => user != userId),
+        },
+
+        { new: true }
+      );
+      res.status(200).json(updatedPost);
+    } else {
+      const updatedPost = await FeedPost.findByIdAndUpdate(
+        id,
+        { likes: feedPost.likes + 1, likedBy: [...feedPost.likedBy, userId] },
+        { new: true }
+      );
+      res.status(200).json(updatedPost);
+    }
   } catch (error) {
     console.log(error.message);
   }
