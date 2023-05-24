@@ -45,13 +45,14 @@ export const createAdventurePost = (post, navigate) => async (dispatch) => {
   }
 };
 
-export const updateAdventurePost = (id, post) => async (dispatch) => {
+export const updateAdventurePost = (post, navigate) => async (dispatch) => {
   try {
-    const { data } = await api.updateAdventurePost(id, post);
+    const { data } = await api.updateAdventurePost(post._id, post);
     dispatch({
       type: UPDATE_ADVENTURE,
       payload: data,
     });
+    navigate("/");
   } catch (error) {
     console.log(error);
   }

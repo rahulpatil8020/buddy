@@ -25,8 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost, updateFeedPost } from "../actions/feedPost";
 import FileBase from "react-file-base64";
-import { updateAdventurePost } from "../api";
-
+import { updateAdventurePost } from "../actions/adventurePosts";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -79,8 +78,9 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
       if (formData?._id) dispatch(updateFeedPost(formData, navigate));
       else dispatch(createFeedPost(formData, navigate));
     } else {
-      if (formData?._id) dispatch(updateAdventurePost(formData, navigate));
-      else dispatch(createAdventurePost(formData, navigate));
+      if (formData?._id) {
+        dispatch(updateAdventurePost(formData, navigate));
+      } else dispatch(createAdventurePost(formData, navigate));
     }
   };
   const handleSubmit = (e) => {

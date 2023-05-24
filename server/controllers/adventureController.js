@@ -31,10 +31,35 @@ export const getAdventurePost = async (req, res) => {
 };
 
 // Controller to update a specific Adventure Post based on the Id that's been sent through req. body
-export const updateAdventurePost = (req, res) => {
+export const updateAdventurePost = async (req, res) => {
+  const adventurePost = req.body;
+  const { id } = req.params;
+
   try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+    const updatedAdventurePost = adventurePost;
+    await AdventurePost.findByIdAndUpdate(id, updatedAdventurePost, {
+      new: true,
+    });
+    res.status(200).json(updatedAdventurePost);
   } catch (error) {
     console.log(error);
+  }
+};
+export const updateFeedPost = async (req, res) => {
+  const feedPost = req.body;
+  const { id } = req.params;
+
+  try {
+    // console.log("ehu", feedPost);
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+    const updatedFeedPost = feedPost;
+    await FeedPost.findByIdAndUpdate(id, updatedFeedPost, { new: true });
+    res.status(200).json(updatedFeedPost);
+  } catch (error) {
+    console.log(error.message);
   }
 };
 

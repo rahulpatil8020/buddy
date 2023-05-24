@@ -13,7 +13,9 @@ const adventurePostsReducer = (adventurePosts = [], action) => {
       return [...adventurePosts, action.payload];
 
     case UPDATE_ADVENTURE:
-      return adventurePosts;
+      return adventurePosts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
 
     case DELETE_ADVENTURE:
       return adventurePosts.filter((post) => post._id !== action.payload);
