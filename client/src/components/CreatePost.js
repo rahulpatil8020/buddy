@@ -23,8 +23,9 @@ import Input from "./Input";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdventurePost } from "../actions/adventurePosts";
-import { createFeedPost } from "../actions/feedPost";
+import { createFeedPost, updateFeedPost } from "../actions/feedPost";
 import FileBase from "react-file-base64";
+import { updateAdventurePost } from "../api";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -47,7 +48,6 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
-  console.log(formData);
   const googleMapsAPIKey = useSelector(
     (state) => state.apiKeysReducer?.googleMapsAPIKey
   );
@@ -74,10 +74,13 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
       return;
     }
     e.preventDefault();
+
     if (type === "feedPost") {
-      dispatch(createFeedPost(formData, navigate));
+      if (formData?._id) dispatch(updateFeedPost(formData, navigate));
+      else dispatch(createFeedPost(formData, navigate));
     } else {
-      dispatch(createAdventurePost(formData, navigate));
+      if (formData?._id) dispatch(updateAdventurePost(formData, navigate));
+      else dispatch(createAdventurePost(formData, navigate));
     }
   };
   const handleSubmit = (e) => {
@@ -148,7 +151,6 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
       active = false;
     };
   }, [value, inputValue, fetch]);
-
   return (
     <>
       <Dialog

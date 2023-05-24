@@ -49,7 +49,8 @@ export const createFeedPost = (post, navigate) => async (dispatch) => {
 
 export const updateFeedPost = (post, navigate) => async (dispatch) => {
   try {
-    const { data } = await api.updateFeedPost(post);
+    const { data } = await api.updateFeedPost(post._id, post);
+    console.log("Hello");
     dispatch({
       type: UPDATE_FEEDPOST,
       payload: data,

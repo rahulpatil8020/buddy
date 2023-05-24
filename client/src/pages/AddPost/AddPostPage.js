@@ -20,15 +20,11 @@ const AddPostPage = () => {
   const location = useLocation();
   const [formData, setFormData] = useState(initialFormData);
   const [createType, setCreateType] = useState(location?.state?.type);
-  // useEffect(() => {
-  //   if (location?.state?.postData?._id) {
-  //     setFormData({
-  //       ...location?.state?.postData,
-  //       createdBy: authData?.user?._id,
-  //       creatorName: authData?.user?.name,
-  //     });
-  //   }
-  // }, [location.state.postData]);
+  useEffect(() => {
+    setFormData(
+      location.state.postData ? location.state.postData : initialFormData
+    );
+  }, [authData, location]);
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
       {createType === "feedPost" && (
