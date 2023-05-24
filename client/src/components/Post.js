@@ -101,7 +101,7 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
             </Typography>
           </Tooltip>
         }
-        subheader={moment(post.createdOn).fromNow()}
+        subheader={`${moment(post.createdOn).fromNow()} By ${post.creatorName}`}
       />
       <CardMedia
         sx={{
