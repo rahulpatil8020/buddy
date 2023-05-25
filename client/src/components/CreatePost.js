@@ -5,10 +5,6 @@ import {
   TextField,
   Chip,
   Stack,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  Slide,
   InputAdornment,
   Autocomplete,
   Box,
@@ -26,11 +22,7 @@ import { createAdventurePost } from "../actions/adventurePosts";
 import { createFeedPost, updateFeedPost } from "../actions/feedPost";
 import FileBase from "react-file-base64";
 import { updateAdventurePost } from "../actions/adventurePosts";
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-// const GOOGLE_MAPS_API_KEY = "AIzaSyCM-BTURlG-E1L9qZX1auBypFzhWEtX2ko";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -58,9 +50,7 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
   const [tagText, setTagText] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
+
   const handleDeleteTag = (tagName) => (e) => {
     setFormData({
       ...formData,
@@ -153,19 +143,11 @@ const CreatePost = ({ postName, postLabel, type, formData, setFormData }) => {
   }, [value, inputValue, fetch]);
   return (
     <>
-      <Dialog
-        open={dialogOpen}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleDialogClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"You sure about this?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>No</Button>
-          <Button onClick={confirmSubmit}>Yes</Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        confirmSubmit={confirmSubmit}
+      />
       <form onSubmit={handleSubmit}>
         <Paper
           elevation={3}

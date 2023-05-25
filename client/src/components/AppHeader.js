@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import {
-  Box,
-  Dialog,
-  Toolbar,
-  Tooltip,
-  Button,
-  DialogTitle,
-  DialogActions,
-  Slide,
-} from "@mui/material";
+import { Box, Toolbar, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 const MyAppTitleBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -26,20 +18,12 @@ const MyAppTitleBox = styled(Box)(({ theme }) => ({
   color: theme.palette.common.white,
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 export default function AppHeader() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
 
   const confirmLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -60,19 +44,11 @@ export default function AppHeader() {
   }, [location]);
   return (
     <>
-      <Dialog
-        open={dialogOpen}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleDialogClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Do You Want to Log Out?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>No</Button>
-          <Button onClick={confirmLogout}>Yes</Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        confirmSubmit={confirmLogout}
+      />
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={{ backgroundColor: "#6418c9" }}>
           <Toolbar>

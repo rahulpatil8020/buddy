@@ -15,7 +15,9 @@ const AddPostPage = () => {
     createdBy: authData?.user?._id,
     creatorName: authData?.user?.name,
     location: "",
-    adventureParticipants: [authData?.user?._id],
+    adventureParticipants: [
+      { userId: authData?.user?._id, userName: authData?.user?.name },
+    ],
   };
   const navigate = useNavigate();
   const location = useLocation();

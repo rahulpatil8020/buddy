@@ -85,14 +85,16 @@ export const likeAdventurePost = (id, userId) => async (dispatch) => {
   }
 };
 
-export const addAdventureParticipant = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.addAdventureParticipant(id);
-    dispatch({
-      type: ADD_ADVENTURE_PARTICIPANT,
-      payload: data,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const addAdventureParticipant =
+  (id, userId, userName, navigate) => async (dispatch) => {
+    try {
+      const { data } = await api.addAdventureParticipant(id, userId, userName);
+      dispatch({
+        type: ADD_ADVENTURE_PARTICIPANT,
+        payload: data,
+      });
+      navigate(`/`);
+    } catch (error) {
+      console.log(error);
+    }
+  };

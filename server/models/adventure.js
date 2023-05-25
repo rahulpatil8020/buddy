@@ -10,7 +10,7 @@ const adventureSchema = mongoose.Schema({
   location: String,
   likes: { type: Number, default: 0 },
   likedBy: [String],
-  adventureParticipants: [String],
+  adventureParticipants: [Object],
   adventureParticipantsCount: {
     type: Number,
     default: 1,

@@ -64,33 +64,44 @@ export const deleteAdventurePost = async (req, res) => {
 
 export const addAdventureParticipant = async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
+  const { userId, userName } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
     const adventurePost = await AdventurePost.findById(id);
-    if (adventurePost?.adventureParticipants?.includes(userId)) {
+    if (
+      adventurePost?.adventureParticipants?.some(
+        (adventureParticipant) => adventureParticipant.userId == userId
+      )
+    ) {
       const updatedPost = await AdventurePost.findByIdAndUpdate(
         id,
         {
           adventureParticipants: adventurePost?.adventureParticipants.filter(
-            (user) => user != userId
+            (user) => user.userId != userId
           ),
-          adventureParticipantsCount: adventureParticipantsCount - 1,
+          adventureParticipantsCount:
+            adventurePost.adventureParticipantsCount - 1,
         },
         { new: true }
       );
       res.status(200).json(updatedPost);
     } else {
+      // console.log(adventurePost);
       const updatedPost = await AdventurePost.findByIdAndUpdate(
         id,
         {
-          adventureParticipants: [...adventureParticipants, userId],
-          adventureParticipantsCount: adventureParticipantsCount + 1,
+          adventureParticipants: [
+            ...adventurePost.adventureParticipants,
+            { userId: userId, userName: userName },
+          ],
+          adventureParticipantsCount:
+            adventurePost.adventureParticipantsCount + 1,
         },
         { new: true }
       );
+      // console.log(updatedPost);
       res.status(200).json(updatedPost);
     }
   } catch (error) {

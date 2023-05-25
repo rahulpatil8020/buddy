@@ -16,8 +16,11 @@ export const updateAdventurePost = (id, formData) =>
 export const deleteAdventurePost = (id) => API.delete(`adventures/${id}`);
 export const likeAdventurePost = (id, userId) =>
   API.patch(`adventures/${id}/like`, { userId: userId });
-export const addAdventureParticipant = (id, userId) =>
-  API.patch(`adventures/${id}/addparticipant`, { userId: userId });
+export const addAdventureParticipant = (id, userId, userName) =>
+  API.patch(`adventures/${id}/addparticipant`, {
+    userId: userId,
+    userName: userName,
+  });
 
 //Feed
 export const getAllFeedPosts = () => API.get("feedPosts/");

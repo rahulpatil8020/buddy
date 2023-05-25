@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Paper,
   Container,
@@ -8,15 +8,41 @@ import {
   Grid,
   Box,
   Typography,
-  Chip,
+  Divider,
+  Avatar,
+  CardActionArea,
+  CardContent,
+  Button,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import { addAdventureParticipant } from "../../actions/adventurePosts";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 
 const AdventurePostDetails = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authReducer?.authData?.user);
   const data = location.state?.postData;
+
+  const handleParticipate = (e) => {
+    setDialogOpen(true);
+  };
+
+  const confirmParticipate = () => {
+    dispatch(
+      addAdventureParticipant(data._id, user?._id, user?.name, navigate)
+    );
+  };
   return (
     <>
+      <ConfirmationDialog
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        confirmSubmit={confirmParticipate}
+      />
       <Container sx={{ marginBottom: 10 }} maxWidth={"md"}>
         <Paper
           sx={{
@@ -48,10 +74,10 @@ const AdventurePostDetails = () => {
                     backgroundBlendMode: "darken",
                   }}
                   image={
-                    data.image ||
+                    data?.image ||
                     "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
                   }
-                  title={data.title}
+                  title={data?.title}
                 />
               </Card>
             </Grid>
@@ -77,7 +103,7 @@ const AdventurePostDetails = () => {
                     Name :
                   </Typography>
                   <Typography sx={{ paddingLeft: 1, fontWeight: 500 }}>
-                    {` ${data.title}`}
+                    {` ${data?.title}`}
                   </Typography>
                 </Box>
                 <Box
@@ -88,7 +114,7 @@ const AdventurePostDetails = () => {
                 >
                   <Typography sx={{ fontWeight: 600 }}>Creator :</Typography>
                   <Typography sx={{ paddingLeft: 1 }} variant="body1">
-                    {`${data.creatorName}`}
+                    {`${data?.creatorName}`}
                   </Typography>
                 </Box>
                 <Box
@@ -103,7 +129,7 @@ const AdventurePostDetails = () => {
                   <Typography
                     sx={{ paddingLeft: 1 }}
                     variant="body1"
-                  >{`${moment(data.createdOn).format(
+                  >{`${moment(data?.createdOn).format(
                     "YYYY-MM-DD"
                   )}`}</Typography>
                 </Box>
@@ -118,7 +144,7 @@ const AdventurePostDetails = () => {
                     variant="body1"
                   >{`Tags : `}</Typography>
                   <Typography sx={{ paddingLeft: 1 }}>
-                    {data.tags.join(" ")}
+                    {data?.tags?.join(" ")}
                   </Typography>
                 </Box>
                 <Box
@@ -154,7 +180,90 @@ const AdventurePostDetails = () => {
                   {data?.details}
                 </Typography>
               </Box>
+              {data?.adventureParticipants?.some(
+                (adventureParticipant) =>
+                  adventureParticipant.userId === user?._id
+              ) ? (
+                <Box
+                  sx={{
+                    padding: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                  }}
+                >
+                  <Button onClick={handleParticipate} variant="contained">
+                    Cancle Participation
+                  </Button>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    padding: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                  }}
+                >
+                  <Button onClick={handleParticipate} variant="contained">
+                    Participate
+                  </Button>
+                </Box>
+              )}
+              <Divider textAlign="left" sx={{ color: "black", marginTop: 2 }}>
+                <Typography variant="h6">
+                  {data?.adventureParticipantsCount} Participant(s)
+                </Typography>
+              </Divider>
             </Grid>
+
+            {data?.adventureParticipants.map((user) => (
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{
+                    width: "100%",
+                  }}
+                >
+                  <CardActionArea>
+                    <CardContent
+                      sx={{
+                        marginX: 1,
+                      }}
+                      onClick={() => console.log("Clicked")}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <Avatar>
+                          {user.userName.split(" ")[0][0]}
+                          {user.userName.split(" ")[1][0]}
+                        </Avatar>
+                        <Box
+                          sx={{
+                            marginLeft: 1,
+                            display: "block",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <Typography noWrap variant={"h6"}>
+                            {user?.userName}
+                          </Typography>
+                          <Typography noWrap>
+                            {user?.userId === data?.createdBy
+                              ? "creator"
+                              : "participant"}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </Paper>
       </Container>
