@@ -15,7 +15,8 @@ import { getAllAdventurePosts } from "./actions/adventurePosts";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { getAllFeedPosts } from "./actions/feedPost";
 import { getGoogleMapsAPIKey } from "./actions/apiKeys";
-import AdventurePostDetails from "./pages/AdventurePostDetails/AdventurePostDetails";
+import AdventurePostDetails from "./pages/PostDetails/AdventurePostDetails";
+import FeedPostDetails from "./pages/PostDetails/FeedPostDetails";
 const theme = createTheme({
   palette: {
     primary: {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/adventure/:id" element={<AdventurePostDetails />} />
+            <Route path="/feed/:id" element={<FeedPostDetails />} />
           </Route>
           <Route path="/auth" element={<Auth />} />
         </Routes>

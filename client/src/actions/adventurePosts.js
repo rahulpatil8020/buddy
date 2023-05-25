@@ -75,7 +75,6 @@ export const deleteAdventurePost = (id) => async (dispatch) => {
 export const likeAdventurePost = (id, userId) => async (dispatch) => {
   try {
     const { data } = await api.likeAdventurePost(id, userId);
-    console.log(data);
     dispatch({
       type: LIKE_ADVENTURE,
       payload: data,

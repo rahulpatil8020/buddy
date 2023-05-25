@@ -63,7 +63,9 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
     setDialogOpen(true);
   };
   const handlePostDetails = () => {
-    navigate(`/adventure/${post._id}`, { state: { postData: post } });
+    if (postType === "adventurePost")
+      navigate(`/adventure/${post._id}`, { state: { postData: post } });
+    else navigate(`/feed/${post._id}`, { state: { postData: post } });
   };
   return (
     <>
