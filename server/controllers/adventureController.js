@@ -26,8 +26,15 @@ export const createAdventurePost = async (req, res) => {
 
 // Controller to get a specific Adventure Post based on the Id that's been sent through req.body
 export const getAdventurePost = async (req, res) => {
+  const { id } = req.params;
   try {
-  } catch (error) {}
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id ${id}`);
+    const adventurePost = await AdventurePost.findById(id);
+    res.status(200).json(adventurePost);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 };
 
 // Controller to update a specific Adventure Post based on the Id that's been sent through req. body

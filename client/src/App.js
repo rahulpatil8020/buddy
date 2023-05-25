@@ -33,7 +33,7 @@ function App() {
     dispatch(getAllAdventurePosts());
     dispatch(getAllFeedPosts());
     dispatch(getGoogleMapsAPIKey());
-  }, [dispatch]);
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

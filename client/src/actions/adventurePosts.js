@@ -22,17 +22,17 @@ export const getAllAdventurePosts = () => async (dispatch) => {
   }
 };
 
-export const getAdventurePost = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.getAdventurePost(id);
-    dispatch({
-      type: GET_ONE_ADVENTURE,
-      payload: data,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const getAdventurePost = (id) => async (dispatch) => {
+//   try {
+//     const { data } = await api.getAdventurePost(id);
+//     dispatch({
+//       type: GET_ONE_ADVENTURE,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export const createAdventurePost = (post, navigate) => async (dispatch) => {
   try {

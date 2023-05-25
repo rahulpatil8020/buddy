@@ -22,7 +22,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -64,8 +64,21 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   };
   const handlePostDetails = () => {
     if (postType === "adventurePost")
-      navigate(`/adventure/${post._id}`, { state: { postData: post } });
-    else navigate(`/feed/${post._id}`, { state: { postData: post } });
+      navigate(
+        {
+          pathname: `/adventure/${post._id}`,
+          search: `?${createSearchParams({ id: post._id })}`,
+        },
+        { state: { postData: post } }
+      );
+    else
+      navigate(
+        {
+          pathname: `/feed/${post._id}`,
+          search: `?${createSearchParams({ id: post._id })}`,
+        },
+        { state: { postData: post } }
+      );
   };
   return (
     <>

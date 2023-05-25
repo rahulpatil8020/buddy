@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Paper,
@@ -18,6 +18,9 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { addAdventureParticipant } from "../../actions/adventurePosts";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
+import { getAdventurePost } from "../../api";
+import { useSearchParams } from "react-router-dom";
+import PostDetailsSkeleton from "../../components/PostDetailsSkeleton";
 
 const AdventurePostDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,17 +28,32 @@ const AdventurePostDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer?.authData?.user);
-  const data = location.state?.postData;
-
+  const [postData, setPostData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const handleParticipate = (e) => {
     setDialogOpen(true);
   };
 
   const confirmParticipate = () => {
     dispatch(
-      addAdventureParticipant(data._id, user?._id, user?.name, navigate)
+      addAdventureParticipant(postData._id, user?._id, user?.name, navigate)
     );
   };
+  const getOneAdventurePost = async (postId) => {
+    const { data } = await getAdventurePost(postId);
+    if (data) {
+      setLoading(false);
+    }
+    setPostData(data);
+  };
+  const [searchParams] = useSearchParams();
+  console.log();
+  useEffect(() => {
+    const postId = searchParams.get("id");
+    if (!postData) {
+      getOneAdventurePost(postId);
+    }
+  }, []);
   return (
     <>
       <ConfirmationDialog
@@ -43,6 +61,7 @@ const AdventurePostDetails = () => {
         setDialogOpen={setDialogOpen}
         confirmSubmit={confirmParticipate}
       />
+
       <Container sx={{ marginBottom: 10 }} maxWidth={"md"}>
         <Paper
           sx={{
@@ -57,96 +76,113 @@ const AdventurePostDetails = () => {
             alignItems: "center",
           }}
         >
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Card
-                sx={{
-                  width: "auto",
-                  margin: "auto",
-                  borderRadius: "15px",
-                }}
-              >
-                <CardMedia
+          {!loading ? (
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Card
                   sx={{
-                    height: 0,
-                    paddingTop: "100%",
-                    backgroundColor: "rgba(0, 0, 0, 0.2)",
-                    backgroundBlendMode: "darken",
+                    width: "auto",
+                    margin: "auto",
+                    borderRadius: "15px",
                   }}
-                  image={
-                    data?.image ||
-                    "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-                  }
-                  title={data?.title}
-                />
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  height: "100%",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  justifyContent: "center",
-                  marginBottom: 2,
-                  marginTop: 2,
-                }}
-              >
-                <Box sx={{ marginTop: 1, display: "flex" }}>
-                  <Typography
-                    component={"h6"}
-                    variant={"body1"}
-                    sx={{ fontWeight: 600, whiteSpace: "nowrap" }}
+                >
+                  <CardMedia
+                    sx={{
+                      height: 0,
+                      paddingTop: "100%",
+                      backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      backgroundBlendMode: "darken",
+                    }}
+                    image={
+                      postData?.image ||
+                      "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+                    }
+                    title={postData?.title}
+                  />
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box
+                  sx={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                    justifyContent: "center",
+                    marginBottom: 2,
+                    marginTop: 2,
+                  }}
+                >
+                  <Box sx={{ marginTop: 1, display: "flex" }}>
+                    <Typography
+                      component={"h6"}
+                      variant={"body1"}
+                      sx={{ fontWeight: 600, whiteSpace: "nowrap" }}
+                    >
+                      Name :
+                    </Typography>
+                    <Typography sx={{ paddingLeft: 1, fontWeight: 500 }}>
+                      {` ${postData?.title}`}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      marginTop: 1,
+                      display: "flex",
+                    }}
                   >
-                    Name :
-                  </Typography>
-                  <Typography sx={{ paddingLeft: 1, fontWeight: 500 }}>
-                    {` ${data?.title}`}
-                  </Typography>
+                    <Typography sx={{ fontWeight: 600 }}>Creator :</Typography>
+                    <Typography sx={{ paddingLeft: 1 }} variant="body1">
+                      {`${postData?.creatorName}`}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      marginTop: 1,
+                      display: "flex",
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                      Created On :
+                    </Typography>
+                    <Typography
+                      sx={{ paddingLeft: 1 }}
+                      variant="body1"
+                    >{`${moment(postData?.createdOn).format(
+                      "YYYY-MM-DD"
+                    )}`}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      marginTop: 1,
+                      display: "flex",
+                    }}
+                  >
+                    <Typography
+                      sx={{ fontWeight: 600, whiteSpace: "nowrap" }}
+                      variant="body1"
+                    >{`Tags : `}</Typography>
+                    <Typography sx={{ paddingLeft: 1 }}>
+                      {postData?.tags?.join(" ")}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      marginTop: 1,
+                      display: "flex",
+                    }}
+                  >
+                    <Typography sx={{ whiteSpace: "nowrap", fontWeight: 600 }}>
+                      {`Location :`}
+                    </Typography>
+                    <Typography sx={{ paddingLeft: 1 }} variant="body1">
+                      {postData?.location}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box
-                  sx={{
-                    marginTop: 1,
-                    display: "flex",
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 600 }}>Creator :</Typography>
-                  <Typography sx={{ paddingLeft: 1 }} variant="body1">
-                    {`${data?.creatorName}`}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    marginTop: 1,
-                    display: "flex",
-                  }}
-                >
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                    Created On :
-                  </Typography>
-                  <Typography
-                    sx={{ paddingLeft: 1 }}
-                    variant="body1"
-                  >{`${moment(data?.createdOn).format(
-                    "YYYY-MM-DD"
-                  )}`}</Typography>
-                </Box>
-                <Box
-                  sx={{
-                    marginTop: 1,
-                    display: "flex",
-                  }}
-                >
-                  <Typography
-                    sx={{ fontWeight: 600, whiteSpace: "nowrap" }}
-                    variant="body1"
-                  >{`Tags : `}</Typography>
-                  <Typography sx={{ paddingLeft: 1 }}>
-                    {data?.tags?.join(" ")}
-                  </Typography>
-                </Box>
+              </Grid>
+              <Grid item xs={12}>
                 <Box
                   sx={{
                     marginTop: 1,
@@ -154,117 +190,104 @@ const AdventurePostDetails = () => {
                   }}
                 >
                   <Typography sx={{ whiteSpace: "nowrap", fontWeight: 600 }}>
-                    {`Location :`}
+                    {`Details :`}
                   </Typography>
-                  <Typography sx={{ paddingLeft: 1 }} variant="body1">
-                    {data?.location}
+                  <Typography
+                    textAlign={"justify"}
+                    sx={{ paddingLeft: 1 }}
+                    variant="body1"
+                  >
+                    {postData?.details}
                   </Typography>
                 </Box>
-              </Box>
-            </Grid>
-            <Grid item sx={12}>
-              <Box
-                sx={{
-                  marginTop: 1,
-                  display: "flex",
-                }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap", fontWeight: 600 }}>
-                  {`Details :`}
-                </Typography>
-                <Typography
-                  textAlign={"justify"}
-                  sx={{ paddingLeft: 1 }}
-                  variant="body1"
-                >
-                  {data?.details}
-                </Typography>
-              </Box>
-              {data?.adventureParticipants?.some(
-                (adventureParticipant) =>
-                  adventureParticipant.userId === user?._id
-              ) ? (
-                <Box
-                  sx={{
-                    padding: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "end",
-                  }}
-                >
-                  <Button onClick={handleParticipate} variant="contained">
-                    Cancle Participation
-                  </Button>
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    padding: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "end",
-                  }}
-                >
-                  <Button onClick={handleParticipate} variant="contained">
-                    Participate
-                  </Button>
-                </Box>
-              )}
-              <Divider textAlign="left" sx={{ color: "black", marginTop: 2 }}>
-                <Typography variant="h6">
-                  {data?.adventureParticipantsCount} Participant(s)
-                </Typography>
-              </Divider>
-            </Grid>
+                {postData?.adventureParticipants?.some(
+                  (adventureParticipant) =>
+                    adventureParticipant.userId === user?._id
+                ) ? (
+                  <Box
+                    sx={{
+                      padding: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <Button onClick={handleParticipate} variant="contained">
+                      Cancle Participation
+                    </Button>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      padding: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <Button onClick={handleParticipate} variant="contained">
+                      Participate
+                    </Button>
+                  </Box>
+                )}
+                <Divider textAlign="left" sx={{ color: "black", marginTop: 2 }}>
+                  <Typography variant="h6">
+                    {postData?.adventureParticipantsCount} Participant(s)
+                  </Typography>
+                </Divider>
+              </Grid>
 
-            {data?.adventureParticipants.map((user) => (
-              <Grid item xs={12} md={6}>
-                <Card
-                  sx={{
-                    width: "100%",
-                  }}
-                >
-                  <CardActionArea>
-                    <CardContent
-                      sx={{
-                        marginX: 1,
-                      }}
-                      onClick={() => console.log("Clicked")}
-                    >
-                      <Box
+              {postData?.adventureParticipants.map((user) => (
+                <Grid item xs={12} md={6}>
+                  <Card
+                    sx={{
+                      width: "100%",
+                    }}
+                  >
+                    <CardActionArea>
+                      <CardContent
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          overflow: "hidden",
+                          marginX: 1,
                         }}
+                        onClick={() => console.log("Clicked")}
                       >
-                        <Avatar>
-                          {user.userName.split(" ")[0][0]}
-                          {user.userName.split(" ")[1][0]}
-                        </Avatar>
                         <Box
                           sx={{
-                            marginLeft: 1,
-                            display: "block",
+                            display: "flex",
+                            alignItems: "center",
                             overflow: "hidden",
                           }}
                         >
-                          <Typography noWrap variant={"h6"}>
-                            {user?.userName}
-                          </Typography>
-                          <Typography noWrap>
-                            {user?.userId === data?.createdBy
-                              ? "creator"
-                              : "participant"}
-                          </Typography>
+                          <Avatar>
+                            {user.userName.split(" ")[0][0]}
+                            {user.userName.split(" ")[1][0]}
+                          </Avatar>
+                          <Box
+                            sx={{
+                              marginLeft: 1,
+                              display: "block",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Typography noWrap variant={"h6"}>
+                              {user?.userName}
+                            </Typography>
+                            <Typography noWrap>
+                              {user?.userId === postData?.createdBy
+                                ? "creator"
+                                : "participant"}
+                            </Typography>
+                          </Box>
                         </Box>
-                      </Box>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <PostDetailsSkeleton />
+          )}
         </Paper>
       </Container>
     </>
