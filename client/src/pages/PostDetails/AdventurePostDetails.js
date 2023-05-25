@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Paper,
   Container,
@@ -24,7 +24,6 @@ import PostDetailsSkeleton from "../../components/PostDetailsSkeleton";
 
 const AdventurePostDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer?.authData?.user);

@@ -64,21 +64,15 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   };
   const handlePostDetails = () => {
     if (postType === "adventurePost")
-      navigate(
-        {
-          pathname: `/adventure/${post._id}`,
-          search: `?${createSearchParams({ id: post._id })}`,
-        },
-        { state: { postData: post } }
-      );
+      navigate({
+        pathname: `/adventure/${post._id}`,
+        search: `?${createSearchParams({ id: post._id })}`,
+      });
     else
-      navigate(
-        {
-          pathname: `/feed/${post._id}`,
-          search: `?${createSearchParams({ id: post._id })}`,
-        },
-        { state: { postData: post } }
-      );
+      navigate({
+        pathname: `/feed/${post._id}`,
+        search: `?${createSearchParams({ id: post._id })}`,
+      });
   };
   return (
     <>
