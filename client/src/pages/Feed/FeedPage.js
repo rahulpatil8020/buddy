@@ -28,7 +28,7 @@ const FeedPage = ({ setCurrentId }) => {
     >
       {posts.map((post) =>
         loading ? (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4}>
+          <Grid key={post._id} item xs={12} sm={6} md={4} lg={3} xl={2.4}>
             <PostCardSkeleton />
           </Grid>
         ) : (
