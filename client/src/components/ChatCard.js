@@ -7,25 +7,27 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/styles";
-import { alpha } from "@mui/material";
-const ChatCard = ({ adventure }) => {
-  const theme = useTheme();
+import { useNavigate, createSearchParams } from "react-router-dom";
+const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
+  const navigate = useNavigate();
+  const onCardClick = () => {
+    setActiveChat(adventure._id);
+    navigate({
+      pathname: "/chat",
+      search: `?${createSearchParams({ roomid: adventure._id })}`,
+    });
+  };
   return (
     <Card
       sx={{
-        backgroundColor: alpha(theme.palette.primary.main, 0.2),
-        marginTop: 2,
+        boxShadow: 0,
+        backgroundColor:
+          adventure._id === activeChat ? "rgba(0, 0, 0, 0.1)" : "white",
         width: "100%",
       }}
     >
       <CardActionArea>
-        <CardContent
-          //   sx={{
-          //     marginX: 1,
-          //   }}
-          onClick={() => console.log("Clicked")}
-        >
+        <CardContent onClick={onCardClick}>
           <Box
             sx={{
               display: "flex",
@@ -47,11 +49,6 @@ const ChatCard = ({ adventure }) => {
               <Typography noWrap variant={"h6"}>
                 {adventure?.title}
               </Typography>
-              {/* <Typography noWrap>
-            {user?.userId === postData?.createdBy
-              ? "creator"
-              : "participant"}
-          </Typography> */}
             </Box>
           </Box>
         </CardContent>

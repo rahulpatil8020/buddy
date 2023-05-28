@@ -46,7 +46,6 @@ const AdventurePostDetails = () => {
     setPostData(data);
   };
   const [searchParams] = useSearchParams();
-  console.log();
   useEffect(() => {
     const postId = searchParams.get("id");
     if (!postData) {
