@@ -20,7 +20,7 @@ const ChatPage = () => {
   const theme = useTheme();
   const [searchParams] = useSearchParams();
   const adventures = useSelector((state) => state.adventurePostsReducer);
-  const user = useSelector((state) => state.authReducer.authData?.user);
+  const user = useSelector((state) => state.authReducer.authData);
   const [activeChat, setActiveChat] = useState(searchParams.get("roomid"));
 
   return (

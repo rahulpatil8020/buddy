@@ -27,7 +27,7 @@ const AdventurePostDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer?.authData?.user);
+  const user = useSelector((state) => state.authReducer?.authData);
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
   const handleParticipate = (e) => {

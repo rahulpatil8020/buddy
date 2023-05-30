@@ -6,18 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 const AddPostPage = () => {
-  const authData = useSelector((state) => state.authReducer?.authData);
+  const user = useSelector((state) => state.authReducer?.authData);
   const initialFormData = {
     title: "",
     tags: [],
     details: "",
     image: "",
-    createdBy: authData?.user?._id,
-    creatorName: authData?.user?.name,
+    createdBy: user?._id,
+    creatorName: user?.name,
     location: "",
-    adventureParticipants: [
-      { userId: authData?.user?._id, userName: authData?.user?.name },
-    ],
+    adventureParticipants: [{ userId: user?._id, userName: user?.name }],
   };
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +25,7 @@ const AddPostPage = () => {
     setFormData(
       location.state.postData ? location.state.postData : initialFormData
     );
-  }, [authData, location]);
+  }, [user, location]);
   return (
     <Container sx={{ paddingTop: 5, paddingBottom: 20 }}>
       {createType === "feedPost" && (

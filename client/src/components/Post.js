@@ -51,7 +51,6 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   };
   const user = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
-  console.log(user);
   const onConfirmDeletePost = () => {
     dispatch(deletePost(post._id));
   };
