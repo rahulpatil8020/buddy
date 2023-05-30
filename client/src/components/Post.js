@@ -30,12 +30,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function stringAvatar(name) {
-  return {
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-  };
-}
-
 const Post = ({ post, likePost, deletePost, loading, postType }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,8 +49,9 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
   const handleMenuUpdate = () => {
     navigate("/addPost", { state: { type: postType, postData: post } });
   };
-  const authData = useSelector((state) => state.authReducer.authData);
+  const user = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch();
+  console.log(user);
   const onConfirmDeletePost = () => {
     dispatch(deletePost(post._id));
   };
@@ -102,10 +97,10 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
       >
         <CardHeader
           avatar={
-            <Avatar
-              alt="User Profile"
-              {...stringAvatar(`${authData?.user?.name}`)}
-            />
+            <Avatar alt="User Profile">
+              {user?.name?.split(" ")[0][0]}
+              {user?.name?.split(" ")[1][0]}
+            </Avatar>
           }
           action={
             <>
@@ -129,7 +124,7 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
                 transformOrigin={{ vertical: "top", horizontal: "left" }}
               >
                 <MenuItem onClick={handlePostDetails}>Details</MenuItem>
-                {post.createdBy === authData.user._id ? (
+                {post.createdBy === user?._id ? (
                   <MenuItem onClick={handleMenuUpdate}>Update</MenuItem>
                 ) : null}
               </Menu>
@@ -210,16 +205,16 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
           <Button
             size="small"
             color="primary"
-            onClick={() => dispatch(likePost(post._id, authData.user._id))}
+            onClick={() => dispatch(likePost(post._id, user?._id))}
           >
-            {post?.likedBy?.includes(authData.user._id) ? (
+            {post?.likedBy?.includes(user?._id) ? (
               <ThumbUpAltIcon fontSize="small" />
             ) : (
               <ThumbUpOffAltIcon fontSize="small" />
             )}{" "}
             Like {post.likes > 0 ? post.likes : null}
           </Button>
-          {post.createdBy === authData.user._id ? (
+          {post.createdBy === user?._id ? (
             <Button size="small" color="primary" onClick={handleDeletePost}>
               <DeleteIcon fontSize="small" /> Delete
             </Button>

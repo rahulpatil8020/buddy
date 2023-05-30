@@ -17,6 +17,7 @@ import { getAllFeedPosts } from "./actions/feedPost";
 import { getGoogleMapsAPIKey } from "./actions/apiKeys";
 import AdventurePostDetails from "./pages/PostDetails/AdventurePostDetails";
 import FeedPostDetails from "./pages/PostDetails/FeedPostDetails";
+import { getUser } from "./actions/auth";
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,6 +34,10 @@ function App() {
     dispatch(getAllAdventurePosts());
     dispatch(getAllFeedPosts());
     dispatch(getGoogleMapsAPIKey());
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      dispatch(getUser(user?.user?._id));
+    }
   }, []);
   return (
     <ThemeProvider theme={theme}>

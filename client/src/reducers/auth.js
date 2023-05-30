@@ -1,4 +1,9 @@
-import { AUTH, LOGOUT, GET_USER } from "../constants/actionTypes";
+import {
+  AUTH,
+  LOGOUT,
+  GET_USER,
+  ADD_USER_ADVENTURE,
+} from "../constants/actionTypes";
 
 const authReducer = (state = { authData: null }, action) => {
   switch (action.type) {
@@ -10,6 +15,11 @@ const authReducer = (state = { authData: null }, action) => {
       return { ...state, authData: null };
     case GET_USER:
       return { ...state, authData: action?.payload };
+
+    case ADD_USER_ADVENTURE: {
+      console.log(state);
+      return { ...state, authData: action?.payload };
+    }
     default:
       return state;
   }

@@ -21,6 +21,7 @@ import ConfirmationDialog from "../../components/ConfirmationDialog";
 import { getAdventurePost } from "../../api";
 import { useSearchParams } from "react-router-dom";
 import PostDetailsSkeleton from "../../components/PostDetailsSkeleton";
+import { addUserAdventure } from "../../actions/auth";
 
 const AdventurePostDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -32,8 +33,8 @@ const AdventurePostDetails = () => {
   const handleParticipate = (e) => {
     setDialogOpen(true);
   };
-
   const confirmParticipate = () => {
+    dispatch(addUserAdventure(user?._id, postData._id));
     dispatch(
       addAdventureParticipant(postData._id, user?._id, user?.name, navigate)
     );

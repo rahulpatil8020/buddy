@@ -5,7 +5,9 @@ const API = axios.create({ baseURL: "http://localhost:8000" });
 //Authentication
 export const signup = (formData) => API.post("users/signup", formData);
 export const login = (formData) => API.post("users/login", formData);
-
+export const addUserAdventure = (userId, adventureId) =>
+  API.patch(`users/${userId}/addAdventure`, { adventureId: adventureId });
+export const getUser = (id) => API.get(`users/${id}`);
 //Adventures
 
 //Get all adventures

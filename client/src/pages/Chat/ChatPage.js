@@ -24,13 +24,16 @@ const ChatPage = () => {
   const [activeChat, setActiveChat] = useState(searchParams.get("roomid"));
 
   return (
-    <Container sx={{ padding: 5 }} maxWidth="lg">
+    <Container
+      sx={{ paddingTop: 5, paddingBottom: 25, height: "100vh" }}
+      maxWidth="lg"
+    >
       <Typography variant="h5" sx={{ fontWeight: 600 }}>
         Chat Room
       </Typography>
       <Paper
         sx={{
-          height: "75vh",
+          height: "100%",
           marginTop: "20px",
           boxShadow:
             "0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19)",

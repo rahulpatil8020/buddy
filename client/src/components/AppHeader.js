@@ -38,10 +38,7 @@ export default function AppHeader() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user?.user);
-    if (user) {
-      dispatch({ type: "GET_USER", payload: user });
-    }
-  }, [location]);
+  }, []);
   return (
     <>
       <ConfirmationDialog

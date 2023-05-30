@@ -1,6 +1,7 @@
 export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
 export const GET_USER = "GET_USER";
+export const ADD_USER_ADVENTURE = "ADD_USER_ADVENTURE";
 
 export const CREATE_ADVENTURE = "CREATE_ADVENTURE";
 export const UPDATE_ADVENTURE = "UPDATE_ADVENTURE";

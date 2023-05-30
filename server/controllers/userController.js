@@ -2,11 +2,15 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 export const getUser = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
-    const user = await User.findOne(id);
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No user with id ${id}`);
+
+    const user = await User.findById(id);
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -21,7 +25,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   const { id } = req.body;
   try {
-    const user = await User.findOne(id);
+    const user = await User.findById(id);
     if (user) {
       await User.deleteOne(id);
     } else {
@@ -81,5 +85,27 @@ export const signup = async (req, res) => {
     res.status(200).json({ token, user: newUser });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const addAdventure = async (req, res) => {
+  const { id } = req.params;
+  const { adventureId } = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No user with id ${id}`);
+
+    const user = await User.findById(id);
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        adventures: [...user.adventures, adventureId],
+      },
+      { new: true }
+    );
+    console.log(updatedUser);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error.message);
   }
 };
