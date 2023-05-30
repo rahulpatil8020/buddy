@@ -16,6 +16,7 @@ import {
   DialogActions,
   Slide,
   DialogTitle,
+  CardActionArea,
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -151,60 +152,54 @@ const Post = ({ post, likePost, deletePost, loading, postType }) => {
             post.creatorName
           }`}
         />
-        <CardMedia
-          sx={{
-            height: 0,
-            paddingTop: "56.25%",
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backgroundBlendMode: "darken",
-          }}
-          image={
-            post.image ||
-            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-          }
-          title={post.title}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "horizontal",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {/* <Typography variant="h6">{post.createdBy}</Typography> */}
-          {/* <Typography sx={{ paddingLeft: 2 }} variant="body2">
-          {moment(post.createdOn).fromNow()}
-        </Typography>
-        <Button style={{ color: "blue" }} size="large">
-          <MoreHorizIcon fontSize="medium" />
-        </Button> */}
-        </div>
-        <Typography
-          sx={{ paddingLeft: 2 }}
-          variant="body2"
-          color="textSecondary"
-          component="h2"
-        >
-          {post?.tags?.slice(0, 2).map((tag) => `${tag} `)}
-        </Typography>
-        <CardContent>
-          <Typography
+        <CardActionArea onClick={handlePostDetails}>
+          <CardMedia
             sx={{
-              textAlign: "justify",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: "4",
-              WebkitBoxOrient: "vertical",
+              height: 0,
+              paddingTop: "56.25%",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              backgroundBlendMode: "darken",
             }}
+            image={
+              post.image ||
+              "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            }
+            title={post.title}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "horizontal",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          ></div>
+          <Typography
+            sx={{ paddingLeft: 2 }}
             variant="body2"
             color="textSecondary"
-            component="p"
+            component="h2"
           >
-            {post.details.substring(0, 150)}
+            {post?.tags?.slice(0, 2).map((tag) => `${tag} `)}
           </Typography>
-        </CardContent>
+          <CardContent>
+            <Typography
+              sx={{
+                textAlign: "justify",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "4",
+                WebkitBoxOrient: "vertical",
+              }}
+              variant="body2"
+              color="textSecondary"
+              component="p"
+            >
+              {post.details.substring(0, 150)}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
         <CardActions
           sx={{
             padding: "0 16px 8px 16px",
