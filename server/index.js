@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import adventureRoutes from "./routes/adventures.js";
 import userRoutes from "./routes/users.js";
 import feedPostRoutes from "./routes/feedPosts.js";
+import chatRoomRoutes from "./routes/chatRoom.js";
 import getAPIKey from "./routes/apiKeys.js";
 import dotenv from "dotenv";
 const app = express();
@@ -20,6 +21,7 @@ app.use("/adventures", adventureRoutes);
 app.use("/users", userRoutes);
 app.use("/feedPosts", feedPostRoutes);
 app.use("/apiKeys", getAPIKey);
+app.use("/chatRooms", chatRoomRoutes);
 
 const PORT = process.env.PORT || 8000;
 const CONNECTION_URL = process.env.CONNECTION_URL;

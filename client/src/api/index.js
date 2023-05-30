@@ -52,3 +52,21 @@ export const likeFeedPost = (id, userId) =>
 // API
 //Google maps api key
 export const getGoogleMapsAPIKey = () => API.get("/apiKeys/googlemap");
+
+// Chat Room
+
+// Get All Chat Rooms
+export const getAllChatRooms = (id) => API.get(`chatRooms/`, { id: id });
+// Get Chat Room by id
+export const getChatRoom = (id) => API.get(`chatRooms/${id}`);
+// Create Chat Room
+export const createChatRoom = (data) => API.post(`chatRooms/`);
+// Update Chat Room
+export const updateChatRoom = (id, data) => API.patch(`chatRooms/${id}`, data);
+// Delete Chat Room
+export const deleteChatRoom = (id) => API.delete(`chatRooms/${id}`);
+// Add Chat
+export const addChat = (id, chat) => API.patch(`chatRooms/${id}/addChat`, chat);
+// Delete Chat
+export const deleteChat = (id, chat) =>
+  API.patch(`chatRooms/${id}/deleteChat`, chat);
