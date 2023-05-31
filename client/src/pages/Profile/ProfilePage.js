@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Avatar, Typography, Paper } from "@mui/material";
 import { styles } from "./styles";
+import ChatSpace from "../../components/ChatSpace";
 const ProfilePage = () => {
   const name = "Rahul Patil";
   return (
@@ -13,6 +14,7 @@ const ProfilePage = () => {
         <Typography component="h1" variant="h4">
           Rahul Patil
         </Typography>
+        <ChatSpace />
       </Container>
     </>
   );

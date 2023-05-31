@@ -76,6 +76,7 @@ export const deleteChatRoom = (id) => async (dispatch) => {
 export const addChat = (id, chat) => async (dispatch) => {
   try {
     const { data } = await api.addChat(id, chat);
+    console.log(data);
     dispatch({
       type: ADD_CHAT,
       payload: data,

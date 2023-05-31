@@ -5,5 +5,6 @@ export const styles = {
     height: "92.2vh",
     flexDirection: "column",
     alignItems: "center",
+    paddingBottom: 20,
   },
 };

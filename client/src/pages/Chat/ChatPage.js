@@ -7,8 +7,9 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Skeleton,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatRoomCard from "../../components/ChatRoomCard";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -18,9 +19,9 @@ import SendIcon from "@mui/icons-material/Send";
 import { addChat, getAllChatRooms } from "../../actions/chatRoom";
 
 const ChatPage = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const messageContainerRef = useRef(null);
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomid");
   const user = useSelector((state) => state.authReducer.authData);
@@ -34,9 +35,13 @@ const ChatPage = () => {
     chatRooms?.map(
       (chatRoom) => chatRoom?._id === roomId && setCurrentChatRoom(chatRoom)
     );
-  }, []);
-  console.log(chatRooms);
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  }, [chatRooms]);
   const handleAddChat = (e) => {
+    e.preventDefault();
     dispatch(
       addChat(currentChatRoom._id, {
         chatText: chatText,
@@ -44,6 +49,7 @@ const ChatPage = () => {
         date: new Date(),
       })
     );
+    setChatText("");
   };
   return (
     <Container
@@ -53,106 +59,136 @@ const ChatPage = () => {
       <Typography variant="h5" sx={{ fontWeight: 600 }}>
         Chat Room
       </Typography>
-      <Paper
-        sx={{
-          height: "100%",
-          marginTop: "20px",
-          boxShadow:
-            "0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19)",
-          borderRadius: "15px",
-          paddingY: "20px",
-          paddingX: "10px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Box
+      {!user || !chatRooms ? (
+        <Skeleton width={40} height={30} />
+      ) : (
+        <Paper
           sx={{
-            width: "100%",
             height: "100%",
+            marginTop: "20px",
+            boxShadow:
+              "0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19)",
+            borderRadius: "15px",
+            paddingY: "20px",
+            paddingX: "10px",
             display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Box
-            sx={{ display: "flex", flexDirection: "column", marginRight: 1 }}
-          >
-            <Divider></Divider>
-            {chatRooms &&
-              chatRooms?.map((chatRoom) => (
-                <>
-                  <ChatRoomCard
-                    key={chatRoom._id}
-                    activeChat={activeChat}
-                    setActiveChat={setActiveChat}
-                    chatRoom={chatRoom}
-                    setCurrentChatRoom={setCurrentChatRoom}
-                  />
-                  <Divider></Divider>
-                </>
-              ))}
-          </Box>
-          <Divider orientation="vertical"></Divider>
-          <Box
             sx={{
               width: "100%",
+              height: "100%",
               display: "flex",
-              flexDirection: "column",
             }}
           >
             <Box
+              sx={{ display: "flex", flexDirection: "column", marginRight: 1 }}
+            >
+              <Divider></Divider>
+              {chatRooms.length > 0 &&
+                chatRooms?.map((chatRoom) => (
+                  <>
+                    <ChatRoomCard
+                      key={chatRoom._id}
+                      activeChat={activeChat}
+                      setActiveChat={setActiveChat}
+                      chatRoom={chatRoom}
+                      setCurrentChatRoom={setCurrentChatRoom}
+                    />
+                    <Divider></Divider>
+                  </>
+                ))}
+            </Box>
+            <Divider orientation="vertical"></Divider>
+            <Box
               sx={{
+                width: "100%",
                 display: "flex",
-                alignItems: "center",
-                paddingX: 5,
-                height: 60,
-                backgroundColor: alpha(theme.palette.primary.main, 0.5),
+                flexDirection: "column",
               }}
             >
-              <Typography variant="h6">Chat Room For </Typography>
-            </Box>
-            {roomId && (
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column-reverse",
-                  height: "100%",
-                  paddingY: 2,
-                  paddingX: 4,
+                  alignItems: "center",
+                  paddingX: 5,
+                  height: 60,
+                  backgroundColor: alpha(theme.palette.primary.main, 0.5),
                 }}
               >
-                <TextField
-                  onChange={(e) => setChatText(e.target.value)}
-                  value={chatText}
-                  autoFocus
-                  id="input-with-icon-textfield"
-                  label="Type a message"
-                  variant="outlined"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={handleAddChat}>
-                          <SendIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
+                {currentChatRoom ? (
+                  <Typography variant="h6">{currentChatRoom.name}</Typography>
+                ) : (
+                  <Typography variant="h6">Chat Room</Typography>
+                )}
+              </Box>
+              {roomId && (
+                <Box
+                  ref={messageContainerRef}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    height: "100%",
+                    paddingY: 2,
+                    paddingX: 4,
                   }}
-                />
-                {currentChatRoom?.chats?.map((chat) => (
-                  <Typography
+                >
+                  <TextField
+                    onChange={(e) => setChatText(e.target.value)}
+                    value={chatText}
+                    autoFocus
+                    id="input-with-icon-textfield"
+                    label="Type a message"
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleAddChat}>
+                            <SendIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Box
                     sx={{
-                      alignSelf:
-                        chat.user === user._id ? "flex-end" : "flex-start",
+                      overflowY: "scroll",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    {chat.chatText}
-                  </Typography>
-                ))}
-              </Box>
-            )}
+                    {currentChatRoom?.chats
+                      ?.sort((a, b) => new Date(a.date) - new Date(b.date))
+                      .map((chat) => (
+                        <Box
+                          style={{
+                            alignSelf:
+                              chat?.user === user?._id
+                                ? "flex-end"
+                                : "flex-start",
+                            maxWidth: "45%",
+                            padding: "2px 5px",
+                            backgroundColor:
+                              chat?.user === user?._id
+                                ? theme.palette.primary.main
+                                : theme.palette.secondary.main,
+                            borderRadius: "5px",
+                            margin: "5px 0",
+                            color: "white",
+                          }}
+                        >
+                          <Typography sx={{}}>{chat.chatText}</Typography>
+                        </Box>
+                      ))}
+                  </Box>
+                </Box>
+              )}
+            </Box>
           </Box>
-        </Box>
-      </Paper>
+        </Paper>
+      )}
     </Container>
   );
 };
