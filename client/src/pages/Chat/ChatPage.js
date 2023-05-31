@@ -6,6 +6,7 @@ import {
   Divider,
   TextField,
   InputAdornment,
+  IconButton,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,19 +15,36 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { useTheme } from "@mui/styles";
 import { alpha } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { getAllChatRooms } from "../../actions/chatRoom";
+import { addChat, getAllChatRooms } from "../../actions/chatRoom";
 
 const ChatPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const theme = useTheme();
   const [searchParams] = useSearchParams();
+  const roomId = searchParams.get("roomid");
   const user = useSelector((state) => state.authReducer.authData);
-  const [activeChat, setActiveChat] = useState(searchParams.get("roomid"));
+  const [activeChat, setActiveChat] = useState(roomId);
   const chatRooms = useSelector((state) => state.chatRoomsReducer);
+  const [currentChatRoom, setCurrentChatRoom] = useState(null);
+
+  const [chatText, setChatText] = useState("");
   useEffect(() => {
     dispatch(getAllChatRooms());
+    chatRooms?.map(
+      (chatRoom) => chatRoom?._id === roomId && setCurrentChatRoom(chatRoom)
+    );
   }, []);
+  console.log(chatRooms);
+  const handleAddChat = (e) => {
+    dispatch(
+      addChat(currentChatRoom._id, {
+        chatText: chatText,
+        user: user._id,
+        date: new Date(),
+      })
+    );
+  };
   return (
     <Container
       sx={{ paddingTop: 5, paddingBottom: 25, height: "100vh" }}
@@ -60,18 +78,19 @@ const ChatPage = () => {
             sx={{ display: "flex", flexDirection: "column", marginRight: 1 }}
           >
             <Divider></Divider>
-            {chatRooms.map((chatRoom) => (
-              <>
-                <ChatRoomCard
-                  key={chatRoom._id}
-                  chatRoomName={chatRoom.name}
-                  activeChat={activeChat}
-                  setActiveChat={setActiveChat}
-                  chatRoomId={chatRoom._id}
-                />
-                <Divider></Divider>
-              </>
-            ))}
+            {chatRooms &&
+              chatRooms?.map((chatRoom) => (
+                <>
+                  <ChatRoomCard
+                    key={chatRoom._id}
+                    activeChat={activeChat}
+                    setActiveChat={setActiveChat}
+                    chatRoom={chatRoom}
+                    setCurrentChatRoom={setCurrentChatRoom}
+                  />
+                  <Divider></Divider>
+                </>
+              ))}
           </Box>
           <Divider orientation="vertical"></Divider>
           <Box
@@ -92,7 +111,7 @@ const ChatPage = () => {
             >
               <Typography variant="h6">Chat Room For </Typography>
             </Box>
-            {searchParams.get("roomid") && (
+            {roomId && (
               <Box
                 sx={{
                   display: "flex",
@@ -103,6 +122,8 @@ const ChatPage = () => {
                 }}
               >
                 <TextField
+                  onChange={(e) => setChatText(e.target.value)}
+                  value={chatText}
                   autoFocus
                   id="input-with-icon-textfield"
                   label="Type a message"
@@ -110,13 +131,23 @@ const ChatPage = () => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <SendIcon />
+                        <IconButton onClick={handleAddChat}>
+                          <SendIcon />
+                        </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
-                <Typography sx={{ alignSelf: "flex-end" }}>Hello</Typography>
-                <Typography>Bye</Typography>
+                {currentChatRoom?.chats?.map((chat) => (
+                  <Typography
+                    sx={{
+                      alignSelf:
+                        chat.user === user._id ? "flex-end" : "flex-start",
+                    }}
+                  >
+                    {chat.chatText}
+                  </Typography>
+                ))}
               </Box>
             )}
           </Box>

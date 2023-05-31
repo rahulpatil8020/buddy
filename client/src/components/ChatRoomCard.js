@@ -9,17 +9,18 @@ import {
 } from "@mui/material";
 import { useNavigate, createSearchParams } from "react-router-dom";
 const ChatRoomCard = ({
-  chatRoomName,
   activeChat,
   setActiveChat,
-  chatRoomId,
+  setCurrentChatRoom,
+  chatRoom,
 }) => {
   const navigate = useNavigate();
   const onCardClick = () => {
-    setActiveChat(chatRoomId);
+    setCurrentChatRoom(chatRoom);
+    setActiveChat(chatRoom._id);
     navigate({
       pathname: "/chat",
-      search: `?${createSearchParams({ roomid: chatRoomId })}`,
+      search: `?${createSearchParams({ roomid: chatRoom._id })}`,
     });
   };
   return (
@@ -27,7 +28,7 @@ const ChatRoomCard = ({
       sx={{
         boxShadow: 0,
         backgroundColor:
-          chatRoomId === activeChat ? "rgba(0, 0, 0, 0.1)" : "white",
+          chatRoom._id === activeChat ? "rgba(0, 0, 0, 0.1)" : "white",
         width: "100%",
       }}
     >
@@ -49,7 +50,7 @@ const ChatRoomCard = ({
               }}
             >
               <Typography noWrap variant={"h6"}>
-                {chatRoomName}
+                {chatRoom.name}
               </Typography>
             </Box>
           </Box>

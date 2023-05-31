@@ -68,7 +68,7 @@ export const addChat = async (req, res) => {
   const { id } = req.params;
 
   try {
-    if (!mongoose.Types.ObjectId.isVallid(id))
+    if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`Chat room with id ${id} not found`);
 
     const chatRoom = await ChatRoom.findById(id);
