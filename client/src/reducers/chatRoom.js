@@ -20,10 +20,12 @@ const chatRoomsReducer = (chatRoom = [], action) => {
       return action.payload;
     case GET_CHATROOM:
       return action.payload;
-    case ADD_CHAT:
-      return chatRoom.map((chatRoom) =>
-        chatRoom._id === action.payload._id ? action.payload : chatRoom
+    case ADD_CHAT: {
+      console.log(action.payload, "$$$$");
+      return chatRoom.map((element) =>
+        element._id === action.payload._id ? action.payload : element
       );
+    }
     case DELETE_CHAT:
       return action.payload;
     default:

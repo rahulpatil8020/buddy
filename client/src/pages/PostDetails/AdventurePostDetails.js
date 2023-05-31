@@ -247,45 +247,47 @@ const AdventurePostDetails = () => {
                     </Button>
                   </Box>
                 )}
-                <Accordion>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography>Create Chat Room</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container spacing={3}>
-                      <Input
-                        name={"name"}
-                        handleChange={(e) => {
-                          setChatRoomName(e.target.value);
-                        }}
-                        label={"Chat Room Name"}
-                        type="text"
-                        autoComplete="off"
-                        half
-                        value={chatRoomName}
-                      />
-                      <Grid
-                        item
-                        xs={6}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Button
-                          variant={"contained"}
-                          onClick={handleCreateChatRoom}
+                {user?._id === postData?.createdBy && (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Create Chat Room</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={3}>
+                        <Input
+                          name={"name"}
+                          handleChange={(e) => {
+                            setChatRoomName(e.target.value);
+                          }}
+                          label={"Chat Room Name"}
+                          type="text"
+                          autoComplete="off"
+                          half
+                          value={chatRoomName}
+                        />
+                        <Grid
+                          item
+                          xs={6}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
                         >
-                          Create Chat Room
-                        </Button>
+                          <Button
+                            variant={"contained"}
+                            onClick={handleCreateChatRoom}
+                          >
+                            Create Chat Room
+                          </Button>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
+                    </AccordionDetails>
+                  </Accordion>
+                )}
                 <Divider textAlign="left" sx={{ color: "black", marginTop: 2 }}>
                   <Typography variant="h6">
                     {postData?.adventureParticipantsCount} Participant(s)

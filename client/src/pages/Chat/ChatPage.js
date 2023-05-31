@@ -8,8 +8,9 @@ import {
   InputAdornment,
   IconButton,
   Skeleton,
+  Alert,
 } from "@mui/material";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatRoomCard from "../../components/ChatRoomCard";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -30,15 +31,15 @@ const ChatPage = () => {
   const [currentChatRoom, setCurrentChatRoom] = useState(null);
 
   const [chatText, setChatText] = useState("");
+
   useEffect(() => {
-    dispatch(getAllChatRooms());
-    chatRooms?.map(
-      (chatRoom) => chatRoom?._id === roomId && setCurrentChatRoom(chatRoom)
-    );
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight;
     }
+    chatRooms?.map(
+      (chatRoom) => chatRoom?._id === roomId && setCurrentChatRoom(chatRoom)
+    );
   }, [chatRooms]);
   const handleAddChat = (e) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ const ChatPage = () => {
       addChat(currentChatRoom._id, {
         chatText: chatText,
         user: user._id,
+        userName: user.name,
         date: new Date(),
       })
     );
@@ -53,7 +55,7 @@ const ChatPage = () => {
   };
   return (
     <Container
-      sx={{ paddingTop: 5, paddingBottom: 25, height: "100vh" }}
+      sx={{ paddingTop: 5, paddingBottom: 30, height: "100vh" }}
       maxWidth="lg"
     >
       <Typography variant="h5" sx={{ fontWeight: 600 }}>
@@ -126,7 +128,6 @@ const ChatPage = () => {
               </Box>
               {roomId && (
                 <Box
-                  ref={messageContainerRef}
                   sx={{
                     display: "flex",
                     flexDirection: "column-reverse",
@@ -136,6 +137,13 @@ const ChatPage = () => {
                   }}
                 >
                   <TextField
+                    sx={{ marginTop: 2 }}
+                    autoComplete="off"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddChat(e);
+                      }
+                    }}
                     onChange={(e) => setChatText(e.target.value)}
                     value={chatText}
                     autoFocus
@@ -153,6 +161,7 @@ const ChatPage = () => {
                     }}
                   />
                   <Box
+                    ref={messageContainerRef}
                     sx={{
                       overflowY: "scroll",
                       display: "flex",
@@ -169,7 +178,7 @@ const ChatPage = () => {
                                 ? "flex-end"
                                 : "flex-start",
                             maxWidth: "45%",
-                            padding: "2px 5px",
+                            padding: "2px 10px",
                             backgroundColor:
                               chat?.user === user?._id
                                 ? theme.palette.primary.main
@@ -179,7 +188,16 @@ const ChatPage = () => {
                             color: "white",
                           }}
                         >
-                          <Typography sx={{}}>{chat.chatText}</Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 10,
+                              color: "grey",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {chat.userName}
+                          </Typography>
+                          <Typography>{chat.chatText}</Typography>
                         </Box>
                       ))}
                   </Box>
@@ -189,6 +207,9 @@ const ChatPage = () => {
           </Box>
         </Paper>
       )}
+      <Alert severity="info" sx={{ margin: 5 }} variant="outlined">
+        Live Chat Comming Soon...
+      </Alert>
     </Container>
   );
 };

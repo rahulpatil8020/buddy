@@ -15,6 +15,7 @@ import { getAllAdventurePosts } from "./actions/adventurePosts";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import { getAllFeedPosts } from "./actions/feedPost";
 import { getGoogleMapsAPIKey } from "./actions/apiKeys";
+import { getAllChatRooms } from "./actions/chatRoom";
 import AdventurePostDetails from "./pages/PostDetails/AdventurePostDetails";
 import FeedPostDetails from "./pages/PostDetails/FeedPostDetails";
 import { getUser } from "./actions/auth";
@@ -34,6 +35,8 @@ function App() {
     dispatch(getAllAdventurePosts());
     dispatch(getAllFeedPosts());
     dispatch(getGoogleMapsAPIKey());
+    dispatch(getAllChatRooms());
+
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       dispatch(getUser(user?.user?._id));
