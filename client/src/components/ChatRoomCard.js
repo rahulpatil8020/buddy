@@ -8,13 +8,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate, createSearchParams } from "react-router-dom";
-const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
+const ChatRoomCard = ({
+  chatRoomName,
+  activeChat,
+  setActiveChat,
+  chatRoomId,
+}) => {
   const navigate = useNavigate();
   const onCardClick = () => {
-    setActiveChat(adventure._id);
+    setActiveChat(chatRoomId);
     navigate({
       pathname: "/chat",
-      search: `?${createSearchParams({ roomid: adventure._id })}`,
+      search: `?${createSearchParams({ roomid: chatRoomId })}`,
     });
   };
   return (
@@ -22,7 +27,7 @@ const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
       sx={{
         boxShadow: 0,
         backgroundColor:
-          adventure._id === activeChat ? "rgba(0, 0, 0, 0.1)" : "white",
+          chatRoomId === activeChat ? "rgba(0, 0, 0, 0.1)" : "white",
         width: "100%",
       }}
     >
@@ -35,10 +40,7 @@ const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
               overflow: "hidden",
             }}
           >
-            <Avatar>
-              {adventure?.title?.split(" ")[0][0]}
-              {adventure?.title?.split(" ")[1][0]}
-            </Avatar>
+            <Avatar>RP</Avatar>
             <Box
               sx={{
                 marginLeft: 1,
@@ -47,7 +49,7 @@ const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
               }}
             >
               <Typography noWrap variant={"h6"}>
-                {adventure?.title}
+                {chatRoomName}
               </Typography>
             </Box>
           </Box>
@@ -57,4 +59,4 @@ const ChatCard = ({ adventure, activeChat, setActiveChat }) => {
   );
 };
 
-export default ChatCard;
+export default ChatRoomCard;

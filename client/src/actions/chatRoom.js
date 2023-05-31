@@ -9,6 +9,7 @@ import {
 } from "../constants/actionTypes";
 
 import * as api from "../api/index";
+import { Navigate } from "react-router-dom";
 
 export const getAllChatRooms = () => async (dispatch) => {
   try {
@@ -34,13 +35,15 @@ export const getChatRoom = (id) => async (dispatch) => {
   }
 };
 
-export const createChatRoom = (data) => async (dispatch) => {
+export const createChatRoom = (formData, navigate) => async (dispatch) => {
   try {
-    const { data } = await api.createChatRoom(data);
+    console.log("hello");
+    const { data } = await api.createChatRoom(formData);
     dispatch({
       type: CREATE_CHATROOM,
       payload: data,
     });
+    navigate("/");
   } catch (error) {
     console.log(error);
   }

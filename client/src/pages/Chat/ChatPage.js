@@ -7,22 +7,26 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import ChatCard from "../../components/ChatCard";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import ChatRoomCard from "../../components/ChatRoomCard";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useTheme } from "@mui/styles";
 import { alpha } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { getAllChatRooms } from "../../actions/chatRoom";
 
 const ChatPage = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [searchParams] = useSearchParams();
-  const adventures = useSelector((state) => state.adventurePostsReducer);
   const user = useSelector((state) => state.authReducer.authData);
   const [activeChat, setActiveChat] = useState(searchParams.get("roomid"));
-
+  const chatRooms = useSelector((state) => state.chatRoomsReducer);
+  useEffect(() => {
+    dispatch(getAllChatRooms());
+  }, []);
   return (
     <Container
       sx={{ paddingTop: 5, paddingBottom: 25, height: "100vh" }}
@@ -56,22 +60,18 @@ const ChatPage = () => {
             sx={{ display: "flex", flexDirection: "column", marginRight: 1 }}
           >
             <Divider></Divider>
-            {adventures.map((adventure) =>
-              adventure.adventureParticipants.some(
-                (adventureParticipant) =>
-                  adventureParticipant?.userId === user?._id
-              ) ? (
-                <>
-                  <ChatCard
-                    key={adventure._id}
-                    adventure={adventure}
-                    activeChat={activeChat}
-                    setActiveChat={setActiveChat}
-                  />
-                  <Divider></Divider>
-                </>
-              ) : null
-            )}
+            {chatRooms.map((chatRoom) => (
+              <>
+                <ChatRoomCard
+                  key={chatRoom._id}
+                  chatRoomName={chatRoom.name}
+                  activeChat={activeChat}
+                  setActiveChat={setActiveChat}
+                  chatRoomId={chatRoom._id}
+                />
+                <Divider></Divider>
+              </>
+            ))}
           </Box>
           <Divider orientation="vertical"></Divider>
           <Box

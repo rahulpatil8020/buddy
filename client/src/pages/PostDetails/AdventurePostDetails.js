@@ -13,15 +13,21 @@ import {
   CardActionArea,
   CardContent,
   Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
+import Input from "../../components/Input";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { addAdventureParticipant } from "../../actions/adventurePosts";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import { getAdventurePost } from "../../api";
 import { useSearchParams } from "react-router-dom";
 import PostDetailsSkeleton from "../../components/PostDetailsSkeleton";
 import { addUserAdventure } from "../../actions/auth";
+import { createChatRoom } from "../../actions/chatRoom";
 
 const AdventurePostDetails = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -30,15 +36,25 @@ const AdventurePostDetails = () => {
   const user = useSelector((state) => state.authReducer?.authData);
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [chatRoomName, setChatRoomName] = useState("");
   const handleParticipate = (e) => {
+    if (user?._id === postData?.createdBy) return;
     setDialogOpen(true);
   };
+
+  const handleCreateChatRoom = (e) => {
+    dispatch(
+      createChatRoom({ name: chatRoomName, adventure: postData._id }, navigate)
+    );
+  };
+
   const confirmParticipate = () => {
     dispatch(addUserAdventure(user?._id, postData._id));
     dispatch(
       addAdventureParticipant(postData._id, user?._id, user?.name, navigate)
     );
   };
+
   const getOneAdventurePost = async (postId) => {
     const { data } = await getAdventurePost(postId);
     if (data) {
@@ -46,6 +62,7 @@ const AdventurePostDetails = () => {
     }
     setPostData(data);
   };
+
   const [searchParams] = useSearchParams();
   useEffect(() => {
     const postId = searchParams.get("id");
@@ -199,6 +216,7 @@ const AdventurePostDetails = () => {
                     {postData?.details}
                   </Typography>
                 </Box>
+
                 {postData?.adventureParticipants?.some(
                   (adventureParticipant) =>
                     adventureParticipant.userId === user?._id
@@ -229,6 +247,45 @@ const AdventurePostDetails = () => {
                     </Button>
                   </Box>
                 )}
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>Create Chat Room</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Grid container spacing={3}>
+                      <Input
+                        name={"name"}
+                        handleChange={(e) => {
+                          setChatRoomName(e.target.value);
+                        }}
+                        label={"Chat Room Name"}
+                        type="text"
+                        autoComplete="off"
+                        half
+                        value={chatRoomName}
+                      />
+                      <Grid
+                        item
+                        xs={6}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button
+                          variant={"contained"}
+                          onClick={handleCreateChatRoom}
+                        >
+                          Create Chat Room
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </AccordionDetails>
+                </Accordion>
                 <Divider textAlign="left" sx={{ color: "black", marginTop: 2 }}>
                   <Typography variant="h6">
                     {postData?.adventureParticipantsCount} Participant(s)

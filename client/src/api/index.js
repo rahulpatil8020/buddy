@@ -60,7 +60,7 @@ export const getAllChatRooms = (id) => API.get(`chatRooms/`, { id: id });
 // Get Chat Room by id
 export const getChatRoom = (id) => API.get(`chatRooms/${id}`);
 // Create Chat Room
-export const createChatRoom = (data) => API.post(`chatRooms/`);
+export const createChatRoom = (formData) => API.post(`chatRooms/`, formData);
 // Update Chat Room
 export const updateChatRoom = (id, data) => API.patch(`chatRooms/${id}`, data);
 // Delete Chat Room
