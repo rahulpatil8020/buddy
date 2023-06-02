@@ -51,10 +51,10 @@ export default function AppHeader() {
           <Toolbar>
             <MyAppTitleBox>
               <Typography variant="h6" noWrap>
-                ADV
+                Pirate's
               </Typography>
               <Typography variant="h6" noWrap>
-                BUD
+                Adventures
               </Typography>
             </MyAppTitleBox>
 

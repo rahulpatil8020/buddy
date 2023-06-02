@@ -6,6 +6,8 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import {
@@ -14,6 +16,9 @@ import {
   compose,
 } from "redux";
 import reducers from "./reducers/index.js";
+
+if (process.env.NODE_ENV === "production") disableReactDevTools();
+
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

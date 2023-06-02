@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8000" });
+const API = axios.create({
+  baseURL: "https://pirates-adventure-api.onrender.com",
+});
 
 //Authentication
 export const signup = (formData) => API.post("users/signup", formData);
